@@ -1,0 +1,7 @@
+.gradle/
+.idea/
+route.iml
+route-*/*.iml
+route-*/build/
+route-*/.gradle/
+route-*/traget/
