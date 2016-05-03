@@ -1,6 +1,9 @@
 .gradle/
 .idea/
 route.iml
+protocal-convert/protocal-convert.iml
+protocal-convert/build/
+protocal-convert/target/
 route-*/*.iml
 route-*/build/
 route-*/.gradle/
