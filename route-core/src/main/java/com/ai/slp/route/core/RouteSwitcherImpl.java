@@ -1,9 +1,9 @@
 package com.ai.slp.route.core;
 
 
-public class RouteGroupImpl implements IRouteGroup {
+public class RouteSwitcherImpl implements IRouteSwitcher {
     @Override
-    public String switchRoute(String tenantId, String groupId, String dataJson) {
+    public Route switchRoute(String tenantId, String groupId, String dataJson) {
         RouteGroup routeGroup = RouteGroup.load(tenantId, groupId);
         if (routeGroup == null) {
             throw new RuntimeException("Failed to find the tenantId:" + tenantId + " groupId:" + groupId);
@@ -12,7 +12,7 @@ public class RouteGroupImpl implements IRouteGroup {
         Route result = RouteSwitcher.switchRoute(routeGroup, dataJson);
 
         if (result != null) {
-            return result.getRouteId();
+            return result;
         }
         return null;
     }

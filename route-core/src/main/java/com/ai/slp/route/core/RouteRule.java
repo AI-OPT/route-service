@@ -34,11 +34,13 @@ public class RouteRule {
             if (ruleBaseInfo.getTimeType() == TimeType.SELF_DEFINED) {
                 // 如果当前是自定义的，则将当前这个规则
                 // 当前这个规则失效了
+                logger.warn("RouteRuleId[{}] has been invalidate. change status to [{}]", routeRuleId, "INVALIDATE");
+                RedisUtil.put(RedisKeyConfig.RK_RouteRuleStatus(routeRuleId), "INVALIDATE");
                 return false;
             } else {
+                logger.info("RouteRuleId[{}] has been invalidate, will reload data", routeRuleId);
                 //根据基础信息重新生成
                 reloadData();
-
             }
         }
 
@@ -73,9 +75,9 @@ public class RouteRule {
         }
 
         if (result) {
-            logger.info("RuleId[{}]  match value, current data:{}", ruleId, resultValue);
+            logger.info("RuleId[{}]  match value [{}], current data:{}", ruleId, ruleBaseInfo.getRuleItem(), resultValue);
         } else {
-            logger.info("RuleId[{}] don't match value, current data:{}", ruleId, resultValue);
+            logger.info("RuleId[{}] don't match value [{}], current data:{}", ruleId, ruleBaseInfo.getRuleItem(), resultValue);
         }
 
         return result;

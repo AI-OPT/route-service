@@ -1,6 +1,7 @@
 package com.ai.slp.route.cache.dao.impl;
 
 import com.ai.slp.route.cache.dao.inter.IRouteDao;
+import com.ai.slp.route.cache.entity.Route;
 import com.ai.slp.route.common.util.DBQueryTemplate;
 
 import java.sql.Connection;
@@ -26,6 +27,26 @@ public class RouteDaoImpl implements IRouteDao {
                     return rs.getInt("totalSize") > 0 ? true : false;
                 }
                 return false;
+            }
+        });
+    }
+
+    @Override
+    public Route queryRouteById(final String routeId) throws SQLException {
+        final String sql = "SELECT ROUTE_ID, STATE FROM ROUTE WHERE ROUTE_ID=? AND STATE LIKE ?";
+        return DBQueryTemplate.query(new DBQueryTemplate.Executor<Route>() {
+            @Override
+            public Route query(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ps.setString(1, routeId);
+                ps.setString(2, "2%");
+                ResultSet rs = ps.executeQuery();
+                Route route = null;
+                if (rs.next()) {
+                    route = new Route(rs.getString("ROUTE_ID"), rs.getString("STATE"));
+                }
+
+                return route;
             }
         });
     }

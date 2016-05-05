@@ -62,6 +62,7 @@ public class Route {
                 rule.reloadData();
             }
 
+
             boolean loadDataTag = rule.loadRuleData(rule.getRuleId());
             if (!loadDataTag) {
                 logger.info("Cannot to load the ruleId[{}] data. cause by: {} time type is self-defined, and current date is out of the invalidate date",
@@ -80,8 +81,6 @@ public class Route {
             } else {
                 hasBeenIncrement.put(RedisKeyConfig.RK_RouteRuleData(rule.getRuleId(), rule.getRuleBaseInfo().getRuleItem()), testValue);
             }
-
-
         }
 
         return false;

@@ -55,7 +55,7 @@ public class RouteCacheTest {
         routeGroupService.setRouteRuleDao(new RouteRuleDaoImpl());
 
         RouteCacheImpl routeCache = new RouteCacheImpl();
-        routeCache.setiRouteGroupService(routeGroupService);
+        routeCache.setRouteGroupService(routeGroupService);
         routeCacheA = routeCache;
     }
 

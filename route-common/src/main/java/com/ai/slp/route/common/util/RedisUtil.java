@@ -251,4 +251,23 @@ public class RedisUtil {
             }
         }
     }
+
+    public static void hput(String key, String fields, String value) {
+        if (isCluster) {
+            jedisCluster.hset(key, fields, value);
+        } else {
+            Jedis jedis = null;
+            try {
+                jedis = jedisPool.getResource();
+                jedis.hset(key, fields, value);
+            } catch (Exception e) {
+                logger.error(e);
+                throw new RuntimeException("Cannot get resource from redis", e);
+            } finally {
+                if (jedis != null) {
+                    jedis.close();
+                }
+            }
+        }
+    }
 }

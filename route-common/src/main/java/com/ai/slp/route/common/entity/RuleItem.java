@@ -45,4 +45,8 @@ public enum RuleItem {
             }
         }
     }
+
+    public String getFieldName() {
+        return fieldName;
+    }
 }

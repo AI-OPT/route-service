@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface IRouteRuleDao {
     List<RouteRule> queryRouteRuleByRouteId(String routeId) throws SQLException;
+
+    RouteRule queryRouteRuleById(String ruleId) throws SQLException;
 }

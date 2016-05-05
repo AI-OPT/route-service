@@ -82,4 +82,8 @@ public class RouteRule {
             return value;
         }
     }
+
+    public String getRouteId() {
+        return routeId;
+    }
 }

@@ -40,6 +40,7 @@ public class RouteGroup {
 
     public void refreshCache() {
         String routeGroupRedisKey = RedisKeyConfig.RK_RouteGroup(tenantId, routeGroupId);
+        // 优先级和路由组ID
         Map<String, String> priorityRouteMapping = new HashMap<String, String>();
         for (PriorityRoutesMapping mapping : priorityRoutesMappings) {
             priorityRouteMapping.put(mapping.getPriorityNumber(), mapping.appendAllRouteIds());

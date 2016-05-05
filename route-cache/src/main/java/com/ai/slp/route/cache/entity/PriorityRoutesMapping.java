@@ -53,7 +53,11 @@ public class PriorityRoutesMapping {
                 routedIds.append(route.getRouteId() + ",");
             }
         }
-        routedIds.deleteCharAt(routedIds.length() - 1);
+
+        if (routedIds.length() > 0) {
+            routedIds.deleteCharAt(routedIds.length() - 1);
+        }
+
         return routedIds.toString();
     }
 

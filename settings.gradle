@@ -1,5 +1,5 @@
 rootProject.name = 'route'
-include 'protocal-convert'
+include 'protocol-convert'
 include 'route-core'
 include 'route-api'
 include 'route-impl'

@@ -32,9 +32,9 @@ subprojects {
     }
 }
 
-project("protocal-convert") {
+project("protocol-convert") {
     project.ext {
-        moduleName = "protocal-convert"
+        moduleName = "protocol-convert"
     }
 
     jar {
