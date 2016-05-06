@@ -1,4 +1,4 @@
-package com.ai.slp.route.service.cache.impl;
+package com.ai.slp.route.service.dubbo.impl;
 
 import com.ai.slp.route.cache.IRouteCache;
 import com.ai.slp.route.service.cache.interfaces.IRouteCacheService;

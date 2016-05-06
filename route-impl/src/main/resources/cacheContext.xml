@@ -9,7 +9,7 @@
     <bean id="routeRuleDao" class="com.ai.slp.route.cache.dao.impl.RouteRuleDaoImpl"></bean>
 
 
-    <bean id="routeService" class="com.ai.slp.route.cache.service.impl.RouteServerServiceImpl">
+    <bean id="routeService" class="com.ai.slp.route.cache.service.impl.RouteServiceImpl">
         <property name="routeDao" ref="routeDao"></property>
         <property name="routeRuleDao" ref="routeRuleDao"></property>
     </bean>

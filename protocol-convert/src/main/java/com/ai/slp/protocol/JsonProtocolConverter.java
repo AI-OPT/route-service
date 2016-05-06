@@ -12,7 +12,13 @@ public class JsonProtocolConverter implements IProtocolConverter {
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(template);
         JsonObject dataJsonObject = (JsonObject) new JsonParser().parse(convertData);
         for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
-            jsonObject.add(entry.getKey(), dataJsonObject.get(entry.getKey()));
+            JsonElement jsonElement = dataJsonObject.get(entry.getKey());
+
+            if (jsonElement == null) {
+                throw new RuntimeException("Cannnot find the data of " + entry.getKey());
+            }
+
+            jsonObject.add(entry.getKey(), jsonElement);
         }
         return jsonObject.toString();
     }

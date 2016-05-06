@@ -50,4 +50,24 @@ public class RouteDaoImpl implements IRouteDao {
             }
         });
     }
+
+    @Override
+    public String queryServiceIdByRouteId(final String routeId) throws SQLException {
+        final String sql = "SELECT SERV_ID FROM ROUTE WHERE ROUTE_ID=? AND STATE LIKE ?";
+        return DBQueryTemplate.query(new DBQueryTemplate.Executor<String>() {
+            @Override
+            public String query(Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ps.setString(1, routeId);
+                ps.setString(2, "2%");
+                ResultSet rs = ps.executeQuery();
+                Route route = null;
+                if (rs.next()) {
+                    return rs.getString("SERV_ID");
+                }
+
+                return null;
+            }
+        });
+    }
 }

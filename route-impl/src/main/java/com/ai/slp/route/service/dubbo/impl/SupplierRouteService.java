@@ -1,4 +1,4 @@
-package com.ai.slp.route.service.supplier.impl;
+package com.ai.slp.route.service.dubbo.impl;
 
 import com.ai.slp.route.common.entity.RuleItem;
 import com.ai.slp.route.core.IRouteSwitcher;

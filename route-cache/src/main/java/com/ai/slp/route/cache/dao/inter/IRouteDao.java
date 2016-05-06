@@ -11,4 +11,6 @@ public interface IRouteDao {
     boolean checkStatusIsValidate(String routeId) throws SQLException;
 
     Route queryRouteById(String routeId) throws SQLException;
+
+    String queryServiceIdByRouteId(String routeId) throws SQLException;
 }

@@ -5,7 +5,7 @@ import com.ai.slp.route.cache.entity.RouteGroup;
 import com.ai.slp.route.cache.entity.RouteRule;
 import com.ai.slp.route.cache.service.inter.IRouteGroupService;
 import com.ai.slp.route.cache.service.inter.IRouteRuleService;
-import com.ai.slp.route.cache.service.inter.IRouteServerService;
+import com.ai.slp.route.cache.service.inter.IRouteService;
 import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.util.RedisUtil;
 import com.google.gson.Gson;
@@ -21,7 +21,7 @@ public class RouteCacheImpl implements IRouteCache {
 
     private IRouteGroupService routeGroupService;
 
-    private IRouteServerService routeService;
+    private IRouteService routeService;
 
     private IRouteRuleService routeRuleService;
 
@@ -93,7 +93,7 @@ public class RouteCacheImpl implements IRouteCache {
         this.routeGroupService = routeGroupService;
     }
 
-    public void setRouteService(IRouteServerService routeService) {
+    public void setRouteService(IRouteService routeService) {
         this.routeService = routeService;
     }
 
