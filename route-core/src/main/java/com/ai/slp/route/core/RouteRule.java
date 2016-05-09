@@ -91,6 +91,8 @@ public class RouteRule {
             Timestamp nextInvalidateTime = ruleBaseInfo.generateNextInvalidateTime();
             logger.info("Reload rule date, RK[{}] next Invalidate time {}", RedisKeyConfig.RK_RouteRuleStatus(ruleId), nextInvalidateTime);
             RedisUtil.putnx(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", nextInvalidateTime.getTime());
+            // 更新路由规则状态
+            RedisUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), "N");
         }
     }
 
