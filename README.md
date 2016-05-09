@@ -93,4 +93,4 @@ SLP核心路由的基础包，主要提供基础能力，比如JDBC连接，Redi
 
 路由规则信息：
 - Key : 规则ID-DATA
-- Value： 当前规则两
+- Value： 当前规则的量
