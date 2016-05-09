@@ -1,6 +1,7 @@
 package com.ai.slp.route.cache.entity;
 
 import com.ai.slp.route.common.config.RedisKeyConfig;
+import com.ai.slp.route.common.util.MCSUtil;
 import com.ai.slp.route.common.util.RedisUtil;
 
 import java.util.HashMap;
@@ -47,11 +48,11 @@ public class RouteGroup {
             mapping.refreshAllRoutesCache();
         }
 
-        RedisUtil.expire(routeGroupRedisKey);
-        RedisUtil.hput(routeGroupRedisKey, priorityRouteMapping);
+        MCSUtil.expire(routeGroupRedisKey);
+        MCSUtil.hput(routeGroupRedisKey, priorityRouteMapping);
 
-        RedisUtil.expire(RedisKeyConfig.RK_RouteGroupStatus(tenantId,routeGroupId));
-        RedisUtil.put(RedisKeyConfig.RK_RouteGroupStatus(tenantId,routeGroupId),
+        MCSUtil.expire(RedisKeyConfig.RK_RouteGroupStatus(tenantId,routeGroupId));
+        MCSUtil.put(RedisKeyConfig.RK_RouteGroupStatus(tenantId,routeGroupId),
                 groupStatus.getValue());
     }
 

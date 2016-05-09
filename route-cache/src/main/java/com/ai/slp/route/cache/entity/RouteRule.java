@@ -2,6 +2,7 @@ package com.ai.slp.route.cache.entity;
 
 import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.entity.RuleBaseInfo;
+import com.ai.slp.route.common.util.MCSUtil;
 import com.ai.slp.route.common.util.RedisUtil;
 
 /**
@@ -48,11 +49,11 @@ public class RouteRule {
     }
 
     public void refreshCache() {
-        RedisUtil.expire(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
-        RedisUtil.put(RedisKeyConfig.RK_RouteRuleData(ruleId,ruleBaseInfo.getRuleItem()), "0", ruleBaseInfo.getInvalidateTime().getTime());
+        MCSUtil.expire(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
+        MCSUtil.put(RedisKeyConfig.RK_RouteRuleData(ruleId,ruleBaseInfo.getRuleItem()), "0", ruleBaseInfo.getInvalidateTime().getTime());
 
-        RedisUtil.expire(RedisKeyConfig.RK_RouteRuleStatus(ruleId));
-        RedisUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), ruleStatus.getValue());
+        MCSUtil.expire(RedisKeyConfig.RK_RouteRuleStatus(ruleId));
+        MCSUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), ruleStatus.getValue());
     }
 
     public enum RuleStatus {

@@ -1,6 +1,7 @@
 package com.ai.slp.route.cache.entity;
 
 import com.ai.slp.route.common.config.RedisKeyConfig;
+import com.ai.slp.route.common.util.MCSUtil;
 import com.ai.slp.route.common.util.RedisUtil;
 import com.google.gson.Gson;
 
@@ -40,11 +41,11 @@ public class Route {
             routeRule.refreshCache();
         }
 
-        RedisUtil.expire(RedisKeyConfig.RK_Route(routeId));
-        RedisUtil.hput(RedisKeyConfig.RK_Route(routeId), ruleBaseInfoMap);
-        
-        RedisUtil.expire(RedisKeyConfig.RK_RouteStatus(routeId));
-        RedisUtil.put(RedisKeyConfig.RK_RouteStatus(routeId), routeStatus.getValue());
+        MCSUtil.expire(RedisKeyConfig.RK_Route(routeId));
+        MCSUtil.hput(RedisKeyConfig.RK_Route(routeId), ruleBaseInfoMap);
+
+        MCSUtil.expire(RedisKeyConfig.RK_RouteStatus(routeId));
+        MCSUtil.put(RedisKeyConfig.RK_RouteStatus(routeId), routeStatus.getValue());
     }
 
     public enum RouteStatus {
