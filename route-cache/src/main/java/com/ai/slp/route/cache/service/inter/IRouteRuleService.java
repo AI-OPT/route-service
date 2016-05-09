@@ -1,6 +1,6 @@
 package com.ai.slp.route.cache.service.inter;
 
-import com.ai.slp.route.cache.entity.RouteRule;
+import com.ai.slp.route.cache.dto.RouteRule;
 
 import java.sql.SQLException;
 

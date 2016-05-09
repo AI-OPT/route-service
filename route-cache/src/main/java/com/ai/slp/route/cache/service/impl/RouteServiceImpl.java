@@ -2,7 +2,7 @@ package com.ai.slp.route.cache.service.impl;
 
 import com.ai.slp.route.cache.dao.inter.IRouteDao;
 import com.ai.slp.route.cache.dao.inter.IRouteRuleDao;
-import com.ai.slp.route.cache.entity.Route;
+import com.ai.slp.route.cache.dto.Route;
 import com.ai.slp.route.cache.service.inter.IRouteService;
 
 import java.sql.SQLException;

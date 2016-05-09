@@ -1,4 +1,4 @@
-package com.ai.slp.route.cache.entity;
+package com.ai.slp.route.cache.dto;
 
 /**
  * Created by xin on 16-4-29.

@@ -1,6 +1,6 @@
 package com.ai.slp.route.cache.service.inter;
 
-import com.ai.slp.route.cache.entity.RouteGroup;
+import com.ai.slp.route.cache.dto.RouteGroup;
 
 import java.sql.SQLException;
 import java.util.List;

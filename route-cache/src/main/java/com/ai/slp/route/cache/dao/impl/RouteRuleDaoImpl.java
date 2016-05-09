@@ -1,7 +1,7 @@
 package com.ai.slp.route.cache.dao.impl;
 
 import com.ai.slp.route.cache.dao.inter.IRouteRuleDao;
-import com.ai.slp.route.cache.entity.RouteRule;
+import com.ai.slp.route.cache.dto.RouteRule;
 import com.ai.slp.route.common.entity.RuleBaseInfo;
 import com.ai.slp.route.common.util.DBQueryTemplate;
 

@@ -1,14 +1,13 @@
 package com.ai.slp.route.cache;
 
-import com.ai.slp.route.cache.entity.Route;
-import com.ai.slp.route.cache.entity.RouteGroup;
-import com.ai.slp.route.cache.entity.RouteRule;
+import com.ai.slp.route.cache.dto.Route;
+import com.ai.slp.route.cache.dto.RouteGroup;
+import com.ai.slp.route.cache.dto.RouteRule;
 import com.ai.slp.route.cache.service.inter.IRouteGroupService;
 import com.ai.slp.route.cache.service.inter.IRouteRuleService;
 import com.ai.slp.route.cache.service.inter.IRouteService;
 import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.util.MCSUtil;
-import com.ai.slp.route.common.util.RedisUtil;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

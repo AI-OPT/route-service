@@ -1,7 +1,7 @@
 package com.ai.slp.route.cache.dao.inter;
 
-import com.ai.slp.route.cache.entity.PriorityRoutesMapping;
-import com.ai.slp.route.cache.entity.RouteGroup;
+import com.ai.slp.route.cache.dto.PriorityRoutesMapping;
+import com.ai.slp.route.cache.dto.RouteGroup;
 
 import java.sql.SQLException;
 import java.util.List;

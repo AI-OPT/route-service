@@ -1,9 +1,9 @@
 package com.ai.slp.route.cache.dao.impl;
 
 import com.ai.slp.route.cache.dao.inter.IRouteGroupDao;
-import com.ai.slp.route.cache.entity.PriorityRoutesMapping;
-import com.ai.slp.route.cache.entity.Route;
-import com.ai.slp.route.cache.entity.RouteGroup;
+import com.ai.slp.route.cache.dto.PriorityRoutesMapping;
+import com.ai.slp.route.cache.dto.Route;
+import com.ai.slp.route.cache.dto.RouteGroup;
 import com.ai.slp.route.common.util.DBQueryTemplate;
 import com.ai.slp.route.common.util.DBUtils;
 import org.apache.logging.log4j.LogManager;

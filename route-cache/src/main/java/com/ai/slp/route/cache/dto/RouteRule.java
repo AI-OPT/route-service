@@ -1,9 +1,8 @@
-package com.ai.slp.route.cache.entity;
+package com.ai.slp.route.cache.dto;
 
 import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.entity.RuleBaseInfo;
 import com.ai.slp.route.common.util.MCSUtil;
-import com.ai.slp.route.common.util.RedisUtil;
 
 /**
  * Created by xin on 16-4-29.

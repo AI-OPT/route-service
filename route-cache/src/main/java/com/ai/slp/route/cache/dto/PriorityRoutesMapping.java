@@ -1,4 +1,4 @@
-package com.ai.slp.route.cache.entity;
+package com.ai.slp.route.cache.dto;
 
 import java.util.ArrayList;
 import java.util.List;

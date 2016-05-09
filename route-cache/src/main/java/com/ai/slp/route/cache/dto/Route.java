@@ -1,8 +1,7 @@
-package com.ai.slp.route.cache.entity;
+package com.ai.slp.route.cache.dto;
 
 import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.util.MCSUtil;
-import com.ai.slp.route.common.util.RedisUtil;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
