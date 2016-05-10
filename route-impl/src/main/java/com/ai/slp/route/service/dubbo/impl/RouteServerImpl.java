@@ -1,5 +1,6 @@
 package com.ai.slp.route.service.dubbo.impl;
 
+import com.ai.opt.base.exception.SystemException;
 import com.ai.slp.route.service.server.interfaces.IRouteServer;
 import com.ai.slp.route.service.server.params.IRouteServerRequest;
 import com.ai.slp.route.service.server.params.RouteServerResponse;
@@ -7,16 +8,18 @@ import com.ai.slp.route.service.service.inters.IRouteServerManager;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class RouteServerImpl implements IRouteServer {
 
     private Logger logger = LogManager.getLogger(RouteServerImpl.class);
 
+    @Autowired
     private IRouteServerManager routeServerManager;
 
     @Override
-    public RouteServerResponse callServerByRouteId(IRouteServerRequest request) {
+    public RouteServerResponse callServerByRouteId(IRouteServerRequest request){
 
         if (request.getTenantId() == null || request.getTenantId().length() == 0) {
             throw new RuntimeException("TenantId can not be null");

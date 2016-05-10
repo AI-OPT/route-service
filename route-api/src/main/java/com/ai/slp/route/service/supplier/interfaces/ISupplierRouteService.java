@@ -1,5 +1,6 @@
 package com.ai.slp.route.service.supplier.interfaces;
 
+import com.ai.opt.base.exception.SystemException;
 import com.ai.slp.route.service.supplier.params.SaleProductInfo;
 
 /**
@@ -7,5 +8,5 @@ import com.ai.slp.route.service.supplier.params.SaleProductInfo;
  */
 public interface ISupplierRouteService {
 
-    String findSupplier(SaleProductInfo saleProductInfo);
+    String findSupplier(SaleProductInfo saleProductInfo) throws SystemException;
 }

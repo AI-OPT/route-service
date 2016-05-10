@@ -1,9 +1,11 @@
 package com.ai.slp.route.service.server.params;
 
+import com.ai.opt.base.vo.BaseInfo;
+
 /**
  * Created by xin on 16-5-5.
  */
-public class RouteServerResponse {
+public class RouteServerResponse  extends BaseInfo {
 
     private String responseCode;
 

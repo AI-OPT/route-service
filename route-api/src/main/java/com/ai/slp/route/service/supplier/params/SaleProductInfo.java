@@ -1,31 +1,24 @@
 package com.ai.slp.route.service.supplier.params;
 
+import com.ai.opt.base.vo.BaseInfo;
+
 /**
  * Created by xin on 16-4-22.
  */
-public class SaleProductInfo {
+public class SaleProductInfo extends BaseInfo {
 
-    private String tenantId;
-
-    private String routeTypeId;
+    private String routeGroupId;
 
     // 单位：厘
     private float totalConsumption;
 
-    public String getTenantId() {
-        return tenantId;
+
+    public String getRouteGroupId() {
+        return routeGroupId;
     }
 
-    public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
-    }
-
-    public String getRouteTypeId() {
-        return routeTypeId;
-    }
-
-    public void setRouteTypeId(String routeTypeId) {
-        this.routeTypeId = routeTypeId;
+    public void setRouteGroupId(String routeGroupId) {
+        this.routeGroupId = routeGroupId;
     }
 
     public float getTotalConsumption() {

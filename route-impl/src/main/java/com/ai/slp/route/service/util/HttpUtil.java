@@ -1,4 +1,4 @@
-package com.ai.slp.route.common.util;
+package com.ai.slp.route.service.util;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

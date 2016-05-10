@@ -3,12 +3,14 @@ package com.ai.slp.route.service.dao.impl;
 import com.ai.slp.route.common.util.DBQueryTemplate;
 import com.ai.slp.route.service.dao.inters.IRouteServerDao;
 import com.ai.slp.route.service.entity.RouteServer;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Repository
 public class RouteServerDaoImpl implements IRouteServerDao {
     @Override
     public RouteServer queryRouteServerByServerId(final String serverId) throws SQLException {

@@ -1,25 +1,17 @@
 package com.ai.slp.route.service.server.params;
 
+import com.ai.opt.base.vo.BaseInfo;
+
 /**
  * Created by xin on 16-5-5.
  */
-public class IRouteServerRequest {
-    private String tenantId;
+public class IRouteServerRequest extends BaseInfo {
 
     private String routeId;
 
     private String serverId;
 
     private String requestDate;
-
-
-    public String getTenantId() {
-        return tenantId;
-    }
-
-    public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
-    }
 
     public String getRouteId() {
         return routeId;

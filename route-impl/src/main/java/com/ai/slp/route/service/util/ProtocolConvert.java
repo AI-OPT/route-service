@@ -1,4 +1,4 @@
-package com.ai.slp.route.common.util;
+package com.ai.slp.route.service.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
