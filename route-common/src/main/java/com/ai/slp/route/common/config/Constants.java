@@ -5,6 +5,6 @@ package com.ai.slp.route.common.config;
  */
 public class Constants {
     public static class MCSConfig{
-        public static final String REGISTER_NAMESPACE = "com.ai.slp.route.services";
+        public static final String REGISTER_NAMESPACE = "com.ai.slp.route.core.services";
     }
 }

@@ -66,4 +66,14 @@ public class RedisKeyConfig {
     public static String RK_RouteRuleStatus(String ruleId) {
         return ruleId + "-STATUS";
     }
+
+    /**
+     * Redis key： Route Server 数据
+     * 用来存放 Route Server的数据
+     * <p/>
+     * routeServerId-DATA
+     */
+    public static String RK_RouteServerData(String routeServerId) {
+        return routeServerId + "-DATA";
+    }
 }

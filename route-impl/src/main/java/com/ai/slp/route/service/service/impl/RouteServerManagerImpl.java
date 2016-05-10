@@ -1,6 +1,6 @@
 package com.ai.slp.route.service.service.impl;
 
-import com.ai.slp.route.cache.dao.inter.IRouteDao;
+import com.ai.slp.route.cache.route.dao.IRouteDao;
 import com.ai.slp.route.service.action.ICallServerAction;
 import com.ai.slp.route.service.dao.inters.IRouteServerDao;
 import com.ai.slp.route.service.entity.RouteServer;

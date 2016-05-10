@@ -6,6 +6,4 @@ import java.sql.SQLException;
 
 public interface IRouteServerDao {
     RouteServer queryRouteServerByServerId(String serverId) throws SQLException;
-
-    RouteServer queryRouteServerByRouteId(String routeId);
 }
