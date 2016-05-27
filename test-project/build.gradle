@@ -1,0 +1,12 @@
+dependencies {
+    compile project(":route-api")
+    compile project(":route-core")
+    compile ('com.alibaba:dubbox:2.8.4'){
+        exclude group: 'org.springframework', module: 'spring-beans'
+        exclude group: 'org.springframework', module: 'spring-core'
+        exclude group: 'org.springframework', module: 'spring-context'
+        exclude group: 'org.springframework', module: 'spring-aop'
+        exclude group: 'org.springframework', module: 'spring-expression'
+    }
+
+}

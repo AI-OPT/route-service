@@ -1,8 +1,8 @@
 package com.ai.slp.route.dubbo.impl;
 
+import com.ai.slp.route.api.core.interfaces.IRouteCoreService;
+import com.ai.slp.route.api.core.params.SaleProductInfo;
 import com.ai.slp.route.dubbo.impl.util.BeanUtil;
-import com.ai.slp.route.service.core.interfaces.IRouteCoreService;
-import com.ai.slp.route.service.core.params.SaleProductInfo;
 
 /**
  * Created by xin on 16-5-10.
