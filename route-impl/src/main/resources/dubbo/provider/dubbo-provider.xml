@@ -22,7 +22,7 @@
     <dubbo:protocol name="${dubbo.protocol}" port="${opt.sys.dubbo.port}"/>
     <dubbo:provider filter="DubboRequestTrackFilter" timeout="${dubbo.provider.timeout}" retries="0" threads="300"/>
     <dubbo:monitor protocol="registry"/>
-    <dubbo:annotation package="com.ai.slp.route.service.dubbo"/>
+    <dubbo:annotation package="com.ai.slp.route.api.dubbo"/>
 
 
     <context:component-scan base-package="com.ai.slp.route"/>

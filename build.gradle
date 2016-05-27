@@ -20,7 +20,7 @@ allprojects {
     configurations.all {
         resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     }
-    group = 'com.ai.slp'
+    group="com.ai.slp.route"
 
 }
 subprojects {
@@ -41,7 +41,7 @@ subprojects {
 project("route-api") {
     project.ext {
         moduleName = "route-api"
-        apiDir =  "src/main/java/com/ai/slp/route/service/"
+        apiDir =  "src/main/java/com/ai/slp/route/api/"
     }
 
     jar {
@@ -52,6 +52,7 @@ project("route-api") {
             attributes 'packageName': moduleName, 'create-date': new Date().format('yyyy-MM-dd HH:mm:ss')
         }
     }
+    publish.dependsOn build
 }
 
 project("route-core") {

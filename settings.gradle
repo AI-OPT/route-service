@@ -1,4 +1,4 @@
-rootProject.name = 'route-service'
+rootProject.name = 'route-api'
 include 'route-core'
 include 'route-api'
 include 'route-impl'
