@@ -4,5 +4,4 @@ include 'route-api'
 include 'route-impl'
 include 'route-cache'
 include 'route-common'
-include 'test-project'
 
