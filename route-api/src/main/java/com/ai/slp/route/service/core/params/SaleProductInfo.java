@@ -1,4 +1,4 @@
-package com.ai.slp.route.service.supplier.params;
+package com.ai.slp.route.service.core.params;
 
 import com.ai.opt.base.vo.BaseInfo;
 

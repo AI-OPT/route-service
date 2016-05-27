@@ -4,8 +4,8 @@ import com.ai.opt.base.exception.SystemException;
 import com.ai.slp.route.common.entity.RuleItem;
 import com.ai.slp.route.core.IRouteSwitcher;
 import com.ai.slp.route.core.Route;
-import com.ai.slp.route.service.supplier.interfaces.ISupplierRouteService;
-import com.ai.slp.route.service.supplier.params.SaleProductInfo;
+import com.ai.slp.route.service.core.interfaces.IRouteCoreService;
+import com.ai.slp.route.service.core.params.SaleProductInfo;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
@@ -13,15 +13,15 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class SupplierRouteServiceImpl implements ISupplierRouteService {
+public class RouteCoreServiceImpl implements IRouteCoreService {
 
-    private Logger logger = LogManager.getLogger(SupplierRouteServiceImpl.class);
+    private Logger logger = LogManager.getLogger(RouteCoreServiceImpl.class);
 
     @Autowired
     private IRouteSwitcher routeGroup;
 
     @Override
-    public String findSupplier(SaleProductInfo saleProductInfo) throws SystemException {
+    public String findRoute(SaleProductInfo saleProductInfo) throws SystemException {
         try {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty(RuleItem.AMOUNT.getFieldName(), saleProductInfo.getTotalConsumption());

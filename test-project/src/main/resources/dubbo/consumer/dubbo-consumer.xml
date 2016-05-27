@@ -26,5 +26,5 @@
 
 
     <dubbo:reference id="supplierRouteService"
-                     interface="com.ai.slp.route.service.supplier.interfaces.ISupplierRouteService"/>
+                     interface="com.ai.slp.route.service.core.interfaces.IRouteCoreService"/>
 </beans>
