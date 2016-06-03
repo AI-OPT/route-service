@@ -1,8 +1,9 @@
 package com.ai.slp.route.api.dubbo.impl;
 
 import com.ai.opt.base.exception.SystemException;
-import com.ai.slp.route.cache.route.IRouteCache;
 import com.ai.slp.route.api.cache.interfaces.IRouteCacheService;
+import com.ai.slp.route.api.cache.param.RouteCacheRequest;
+import com.ai.slp.route.cache.route.IRouteCache;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,9 +20,9 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
 
 
     @Override
-    public boolean refreshAllCache(String tenantId) throws SystemException {
+    public boolean refreshAllCache(RouteCacheRequest request) throws SystemException {
         try {
-            return routeCache.refreshAllCache(tenantId);
+            return routeCache.refreshAllCache(request.getTenantId());
         } catch (Exception e) {
             logger.error(e);
             throw new SystemException("999999", "Failed to refresh all route group Cache");
@@ -29,9 +30,9 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
     }
 
     @Override
-    public boolean refreshRouteGroup(String routeGroupId) throws SystemException {
+    public boolean refreshRouteGroup(RouteCacheRequest request) throws SystemException {
         try {
-            return routeCache.refreshRouteGroup(routeGroupId);
+            return routeCache.refreshRouteGroup(request.getRouteGroupId());
         } catch (Exception e) {
             logger.error(e);
             throw new SystemException("999999", "Failed to refresh route group cache");
@@ -39,9 +40,9 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
     }
 
     @Override
-    public boolean refreshRoute(String routeId) throws SystemException {
+    public boolean refreshRoute(RouteCacheRequest request) throws SystemException {
         try {
-            return routeCache.refreshRoute(routeId);
+            return routeCache.refreshRoute(request.getRouteId());
         } catch (Exception e) {
             logger.error(e);
             throw new SystemException("999999", "Failed to refresh route cache");
@@ -49,9 +50,9 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
     }
 
     @Override
-    public boolean refreshRule(String ruleId) throws SystemException {
+    public boolean refreshRule(RouteCacheRequest request) throws SystemException {
         try {
-            return routeCache.refreshRule(ruleId);
+            return routeCache.refreshRule(request.getRuleId());
         } catch (Exception e) {
             logger.error(e);
             throw new SystemException("999999", "Failed to refresh route rule cache");
