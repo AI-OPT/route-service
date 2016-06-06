@@ -2,13 +2,15 @@ package com.ai.slp.route.cache.route.dto;
 
 import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.util.MCSUtil;
-import com.ai.slp.route.common.util.RedisUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class RouteGroup {
+    private Logger logger = LogManager.getLogger(RouteGroup.class);
     //
     private String tenantId;
     private String routeGroupName;
@@ -48,11 +50,12 @@ public class RouteGroup {
             mapping.refreshAllRoutesCache();
         }
 
+        logger.debug("Refresh key : {}, refresh Value: {}", routeGroupRedisKey, priorityRouteMapping);
         MCSUtil.expire(routeGroupRedisKey);
         MCSUtil.hput(routeGroupRedisKey, priorityRouteMapping);
 
-        MCSUtil.expire(RedisKeyConfig.RK_RouteGroupStatus(tenantId,routeGroupId));
-        MCSUtil.put(RedisKeyConfig.RK_RouteGroupStatus(tenantId,routeGroupId),
+        MCSUtil.expire(RedisKeyConfig.RK_RouteGroupStatus(tenantId, routeGroupId));
+        MCSUtil.put(RedisKeyConfig.RK_RouteGroupStatus(tenantId, routeGroupId),
                 groupStatus.getValue());
     }
 

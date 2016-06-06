@@ -4,6 +4,8 @@ import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.util.MCSUtil;
 import com.ai.slp.route.common.util.RedisUtil;
 import com.google.gson.Gson;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import java.util.Map;
  * Created by xin on 16-4-29.
  */
 public class Route {
+    private Logger logger = LogManager.getLogger(Route.class);
     private String routeId;
     private String routeName;
     private RouteInfo routeInfo;
@@ -43,9 +46,10 @@ public class Route {
 
         MCSUtil.expire(RedisKeyConfig.RK_Route(routeId));
         MCSUtil.hput(RedisKeyConfig.RK_Route(routeId), ruleBaseInfoMap);
-
+        logger.debug("Refresh key:{}, Refsh Value:{}", RedisKeyConfig.RK_Route(routeId), ruleBaseInfoMap);
         MCSUtil.expire(RedisKeyConfig.RK_RouteStatus(routeId));
         MCSUtil.put(RedisKeyConfig.RK_RouteStatus(routeId), routeStatus.getValue());
+        logger.debug("Refresh key:{}, Refsh Value:{}", RedisKeyConfig.RK_RouteStatus(routeId), routeStatus.getValue());
     }
 
     public enum RouteStatus {

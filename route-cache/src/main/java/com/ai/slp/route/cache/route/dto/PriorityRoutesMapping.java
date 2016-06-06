@@ -65,6 +65,7 @@ public class PriorityRoutesMapping {
         for (Route route : routeList) {
             // 路由要是没有规则，则不需要加入到Redis中
             if (route.getRouteRules().size() != 0) {
+
                 route.refreshCache();
             }
         }
