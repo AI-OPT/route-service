@@ -90,7 +90,7 @@ public enum CycleUnit {
                 return DAY;
             case "W":
                 return WEEK;
-            case "H":
+            case "M":
                 return MONTH;
             case "Q":
                 return QUARTER;

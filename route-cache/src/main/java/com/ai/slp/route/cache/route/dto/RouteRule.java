@@ -83,10 +83,10 @@ public class RouteRule {
 
         public static RuleStatus convert(String state) {
             switch (state) {
-                case "2": {
+                case "1": {
                     return VALIDATE;
                 }
-                case "21": {
+                case "0": {
                     return INVALIDATE;
                 }
                 default: {

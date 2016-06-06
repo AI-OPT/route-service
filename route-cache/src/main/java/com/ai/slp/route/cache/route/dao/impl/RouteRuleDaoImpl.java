@@ -19,13 +19,13 @@ import java.util.List;
 public class RouteRuleDaoImpl implements IRouteRuleDao {
     @Override
     public List<RouteRule> queryRouteRuleByRouteId(final String routeId) throws SQLException {
-        final String sql = "SELECT ROUTE_RULE_ID, ROUTE_ID, ROUTE_RULE_TYPE, STATE,ROUTE_RULE_ITEM, MIN_QUANTITY, MAX_QUANTITY, TIME_TYPE, CYCLE_UNIT, CYCLE_VALUE, BEGIN_DATE, END_DATE FROM ROUTE_RULE WHERE ROUTE_ID = ? AND STATE LIKE ?";
+        final String sql = "SELECT ROUTE_RULE_ID, ROUTE_ID, ROUTE_RULE_TYPE, STATE,ROUTE_RULE_ITEM, MIN_QUANTITY, MAX_QUANTITY, TIME_TYPE, CYCLE_UNIT, CYCLE_VALUE, BEGIN_DATE, END_DATE FROM ROUTE_RULE WHERE ROUTE_ID = ? AND STATE LIKE ? AND ROUTE_RULE_ITEM != 'C'";
         return DBQueryTemplate.query(new DBQueryTemplate.Executor<List<RouteRule>>() {
             @Override
             public List<RouteRule> query(Connection connection) throws SQLException {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, routeId);
-                preparedStatement.setString(2, "2%");
+                preparedStatement.setString(2, "1");
 
                 ResultSet resultSet = preparedStatement.executeQuery();
                 List<RouteRule> routeRules = new ArrayList<RouteRule>();
