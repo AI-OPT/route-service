@@ -50,10 +50,11 @@ public class RouteGroupDaoImpl implements IRouteGroupDao {
             @Override
             public List<PriorityRoutesMapping> query(Connection connection) throws SQLException {
                 List<PriorityRoutesMapping> routesMappings = new ArrayList<PriorityRoutesMapping>();
-                String sql = "SELECT ROUTE_ID, ROUTE_ITEM_ID, ROUTE_GROUP_ID, PRIORITY_NUMBER, SERIAL_NUMBER, STATE FROM ROUTE_ITEM WHERE ROUTE_GROUP_ID = ? AND STATE LIKE ? ORDER BY PRIORITY_NUMBER, SERIAL_NUMBER";
+                String sql = "SELECT ROUTE.ROUTE_ID, ROUTE_ITEM_ID, ROUTE_GROUP_ID, PRIORITY_NUMBER, SERIAL_NUMBER, ROUTE.STATE AS STATE FROM ROUTE_ITEM,ROUTE WHERE ROUTE_GROUP_ID = ? AND ROUTE_ITEM.STATE = ? AND  ROUTE.STATE like ? AND ROUTE.ROUTE_ID = ROUTE_ITEM.ROUTE_ID ORDER BY PRIORITY_NUMBER, SERIAL_NUMBER";
                 PreparedStatement ps = connection.prepareStatement(sql);
                 ps.setString(1, routeGroupId);
-                ps.setString(2, "2%");
+                ps.setString(2, "1");
+                ps.setString(3, "2%");
                 ResultSet resultSet = ps.executeQuery();
                 while (resultSet.next()) {
                     PriorityRoutesMapping mapping = new PriorityRoutesMapping(resultSet.getString("ROUTE_ITEM_ID"), resultSet.getString("SERIAL_NUMBER"));
