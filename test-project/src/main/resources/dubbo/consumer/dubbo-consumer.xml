@@ -22,9 +22,15 @@
 
 
     <dubbo:reference id="routeCacheService"
-                     interface="com.ai.slp.route.service.cache.interfaces.IRouteCacheService"/>
+                     interface="com.ai.slp.route.api.cache.interfaces.IRouteCacheService"/>
 
+    <dubbo:reference id="testDubboSV"
+                     interface="com.ai.slp.route.api.test.ITestDubboSV"/>
 
-    <dubbo:reference id="supplierRouteService"
-                     interface="com.ai.slp.route.service.core.interfaces.IRouteCoreService"/>
+    <dubbo:reference id="routeCoreService"
+                     interface="com.ai.slp.route.api.core.interfaces.IRouteCoreService"/>
+
+    <dubbo:reference id="iRouteServer"
+                     interface="com.ai.slp.route.api.server.interfaces.IRouteServer"/>
+
 </beans>

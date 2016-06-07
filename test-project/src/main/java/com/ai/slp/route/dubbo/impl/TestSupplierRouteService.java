@@ -11,9 +11,9 @@ public class TestSupplierRouteService {
 
     public static void main(String[] args) {
         SaleProductInfo saleProductInfo = new SaleProductInfo();
-        saleProductInfo.setTenantId("SLP-001");
-        saleProductInfo.setRouteGroupId("RT-GROUP-001");
-        saleProductInfo.setTotalConsumption(20.5F);
+        saleProductInfo.setTenantId("SLP");
+        saleProductInfo.setRouteGroupId("1000000001");
+        saleProductInfo.setTotalConsumption(9980);
         System.out.println(BeanUtil.getBean(IRouteCoreService.class).findRoute(saleProductInfo));
     }
 }
