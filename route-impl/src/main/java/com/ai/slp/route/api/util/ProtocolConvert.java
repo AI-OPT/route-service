@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.util.Date;
 import java.util.Map;
 
 public class ProtocolConvert {
@@ -20,6 +21,7 @@ public class ProtocolConvert {
 
             result.add(entry.getKey(), temp);
         }
+
 
         return result.toString();
     }

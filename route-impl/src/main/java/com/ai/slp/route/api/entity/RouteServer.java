@@ -1,7 +1,7 @@
 package com.ai.slp.route.api.entity;
 
-import com.ai.slp.route.api.action.O2PCallServerAction;
 import com.ai.slp.route.api.action.ICallServerAction;
+import com.ai.slp.route.api.action.O2PCallServerAction;
 import com.ai.slp.route.api.action.RedirectCallServerAction;
 
 /**
@@ -55,10 +55,11 @@ public class RouteServer {
         }
 
 
-        public ICallServerAction chooseCallServerAction(RouteServer routeServer, String requestDate) {
+        public ICallServerAction chooseCallServerAction(RouteServer routeServer, String tenantId, String requestDate) {
             switch (this) {
-                case HTTP:
-                    return new O2PCallServerAction(routeServer, requestDate);
+                case HTTP: {
+                    return new O2PCallServerAction(routeServer, tenantId, requestDate);
+                }
                 case REDIRECT:
                     return new RedirectCallServerAction();
                 default:

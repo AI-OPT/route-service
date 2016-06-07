@@ -30,7 +30,7 @@ public class RouteServerImpl implements IRouteServer {
 
         try {
 
-            return routeServerManager.callServerByRouteId(request.getRouteId(), request.getRequestDate());
+            return routeServerManager.callServerByRouteId(request);
         } catch (Exception e) {
             logger.error("Failed to call server by route Id", e);
         }
@@ -48,6 +48,6 @@ public class RouteServerImpl implements IRouteServer {
             throw new RuntimeException("routeID can not be null");
         }
 
-        return routeServerManager.callServerByServerId(request.getServerId(), request.getRequestDate());
+        return routeServerManager.callServerByServerId(request);
     }
 }

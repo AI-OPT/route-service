@@ -17,7 +17,7 @@ public class RouteServerDaoImpl implements IRouteServerDao {
         return DBQueryTemplate.query(new DBQueryTemplate.Executor<RouteServer>() {
             @Override
             public RouteServer query(Connection connection) throws SQLException {
-                String sql = "SELECT SERV_ID, SERV_NAME , URL, REQUEST_PARAM,RETURN_PARAM,SERV_TYPE FROM SERV_INFO WHERE  SERV_ID = ?  AND STATE LIKE ?";
+                String sql = "SELECT SERV_ID, SERV_NAME , URL, REQUEST_PARAM,RETURN_PARAM,SERV_TYPE FROM route_serv_info WHERE  SERV_ID = ?  AND STATE LIKE ?";
                 PreparedStatement ps = connection.prepareStatement(sql);
                 ps.setString(1, serverId);
                 ps.setString(2, "2%");

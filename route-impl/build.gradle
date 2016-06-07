@@ -2,4 +2,5 @@ dependencies {
     compile project(":route-api")
     compile project(":route-core")
     compile 'org.apache.httpcomponents:httpclient:4.5.2'
+    compile 'com.ai.slp.common:cache:1.0-SNAPSHOT'
 }

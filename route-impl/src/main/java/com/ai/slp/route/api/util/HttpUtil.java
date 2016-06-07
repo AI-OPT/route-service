@@ -19,11 +19,10 @@ public class HttpUtil {
 
     private static Logger logger = LogManager.getLogger(HttpUtil.class);
 
-    public static String doPostRequest(String requestUrl, String appKey, String requestValue) throws IOException {
+    public static String doPostRequest(String requestUrl, String requestValue) throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
             HttpPost httpPost = new HttpPost(requestUrl);
-            httpPost.setHeader("appKey", appKey);
             StringEntity entity = new StringEntity(requestValue, "UTF-8");
             entity.setContentType(ContentType.APPLICATION_JSON.toString());
             httpPost.setEntity(entity);

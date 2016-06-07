@@ -11,7 +11,7 @@ public class IRouteServerRequest extends BaseInfo {
 
     private String serverId;
 
-    private String requestDate;
+    private String requestData;
 
     public String getRouteId() {
         return routeId;
@@ -29,11 +29,11 @@ public class IRouteServerRequest extends BaseInfo {
         this.serverId = serverId;
     }
 
-    public String getRequestDate() {
-        return requestDate;
+    public String getRequestData() {
+        return requestData;
     }
 
-    public void setRequestDate(String requestDate) {
-        this.requestDate = requestDate;
+    public void setRequestData(String requestData) {
+        this.requestData = requestData;
     }
 }
