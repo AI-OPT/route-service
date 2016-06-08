@@ -57,7 +57,7 @@ public class RouteGroupDaoImpl implements IRouteGroupDao {
                 ps.setString(3, "2%");
                 ResultSet resultSet = ps.executeQuery();
                 while (resultSet.next()) {
-                    PriorityRoutesMapping mapping = new PriorityRoutesMapping(resultSet.getString("ROUTE_ITEM_ID"), resultSet.getString("SERIAL_NUMBER"));
+                    PriorityRoutesMapping mapping = new PriorityRoutesMapping(resultSet.getString("ROUTE_ITEM_ID"), resultSet.getString("PRIORITY_NUMBER"));
                     int index = routesMappings.indexOf(mapping);
 
                     if (index != -1) {
