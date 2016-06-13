@@ -2,7 +2,6 @@ package com.ai.slp.route.core;
 
 import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.util.MCSUtil;
-import com.ai.slp.route.common.util.RedisUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.logging.log4j.LogManager;
@@ -53,17 +52,17 @@ public class Route {
 
         for (RouteRule rule : ruleIds) {
             String routeRuleStatus = MCSUtil.load(RedisKeyConfig.RK_RouteRuleStatus(rule.getRuleId()));
-            if ("I".equals(routeRuleStatus)){
+            if ("I".equals(routeRuleStatus)) {
                 logger.info("Route RuleId{} status is {}, The Rules have not yet entered into force.",
                         rule.getRuleId(), "I");
                 // 校验是否开始生效
-               if ( rule.getRuleBaseInfo().getValidateTime().after(new Timestamp(System.currentTimeMillis()))){
-                   continue;
-               }else{
-                   //重置状态
-                   rule.reloadData();
-               }
-            }else if (!"N".equals(routeRuleStatus)) {
+                if (rule.getRuleBaseInfo().getValidateTime().after(new Timestamp(System.currentTimeMillis()))) {
+                    continue;
+                } else {
+                    //重置状态
+                    rule.reloadData();
+                }
+            } else if (!"N".equals(routeRuleStatus)) {
                 logger.info("Route RuleId{} status is {}, This route cannot be match.",
                         rule.getRuleId(), "N");
                 return true;

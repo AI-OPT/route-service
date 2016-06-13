@@ -86,11 +86,17 @@ public class RouteRule {
     public void reloadData() {
         //
         if (ruleBaseInfo != null) {
+
             //直接更新值，当前值失效，然后只为0，置为失效时间
             MCSUtil.expire(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
-            Timestamp nextInvalidateTime = ruleBaseInfo.generateNextInvalidateTime();
-            logger.info("Reload rule date, RK[{}] next Invalidate time {}", RedisKeyConfig.RK_RouteRuleStatus(ruleId), nextInvalidateTime);
-            MCSUtil.putnx(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", nextInvalidateTime.getTime());
+            if (ruleBaseInfo.getTimeType() == TimeType.CYCLE) {
+                Timestamp nextInvalidateTime = ruleBaseInfo.generateNextInvalidateTime();
+                logger.info("Reload rule date, RK[{}] next Invalidate time {}", RedisKeyConfig.RK_RouteRuleStatus(ruleId), nextInvalidateTime);
+                MCSUtil.putnx(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", nextInvalidateTime.getTime());
+            }else{
+                logger.info("Reload rule date, RK[{}] next Invalidate time {}", RedisKeyConfig.RK_RouteRuleStatus(ruleId), ruleBaseInfo.getInvalidateTime());
+                MCSUtil.putnx(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", ruleBaseInfo.getInvalidateTime().getTime());
+            }
             // 更新路由规则状态
             MCSUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), "N");
         }
