@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +56,13 @@ public class Route {
             if ("I".equals(routeRuleStatus)){
                 logger.info("Route RuleId{} status is {}, The Rules have not yet entered into force.",
                         rule.getRuleId(), "I");
-                continue;
+                // 校验是否开始生效
+               if ( rule.getRuleBaseInfo().getValidateTime().after(new Timestamp(System.currentTimeMillis()))){
+                   continue;
+               }else{
+                   //重置状态
+                   rule.reloadData();
+               }
             }else if (!"N".equals(routeRuleStatus)) {
                 logger.info("Route RuleId{} status is {}, This route cannot be match.",
                         rule.getRuleId(), "N");
