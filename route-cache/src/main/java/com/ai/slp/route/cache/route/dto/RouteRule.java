@@ -6,6 +6,8 @@ import com.ai.slp.route.common.util.MCSUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Timestamp;
+
 /**
  * Created by xin on 16-4-29.
  */
@@ -18,14 +20,16 @@ public class RouteRule {
     private RuleBaseInfo ruleBaseInfo;
     private RuleStatus ruleStatus;
 
-    public RouteRule(String routeId, String ruleId, String state) {
+    public RouteRule(String routeId, String ruleId, String state, RuleBaseInfo ruleBaseInfo) {
         this.routeId = routeId;
         this.ruleId = ruleId;
-        this.ruleStatus = RuleStatus.convert(state);
-    }
-
-    public void setRuleBaseInfo(RuleBaseInfo ruleBaseInfo) {
         this.ruleBaseInfo = ruleBaseInfo;
+        // 还需要校验时间，如果起始时间在现在时间之后，则是未生效状态
+        if (this.ruleBaseInfo.getValidateTime().after(new Timestamp(System.currentTimeMillis()))){
+            this.ruleStatus = RuleStatus.INEFFECTIVE;
+        }else{
+            this.ruleStatus = RuleStatus.convert(state);
+        }
     }
 
     @Override
@@ -73,7 +77,7 @@ public class RouteRule {
     }
 
     public enum RuleStatus {
-        VALIDATE("N"), INVALIDATE("U");
+        VALIDATE("N"), INVALIDATE("U"), INEFFECTIVE("I");
 
         private String value;
 
@@ -88,6 +92,9 @@ public class RouteRule {
                 }
                 case "0": {
                     return INVALIDATE;
+                }
+                case "-1":{
+                    return INEFFECTIVE;
                 }
                 default: {
                     throw new RuntimeException("Cannot find the state[" + state + "]");

@@ -32,8 +32,7 @@ public class RouteRuleDaoImpl implements IRouteRuleDao {
 
                 while (resultSet.next()) {
                     RouteRule routeRule = new RouteRule(resultSet.getString("ROUTE_ID"),
-                            resultSet.getString("ROUTE_RULE_ID"), resultSet.getString("STATE"));
-                    routeRule.setRuleBaseInfo(new RuleBaseInfo(resultSet));
+                            resultSet.getString("ROUTE_RULE_ID"), resultSet.getString("STATE"), new RuleBaseInfo(resultSet));
                     routeRules.add(routeRule);
                 }
 
@@ -58,8 +57,7 @@ public class RouteRuleDaoImpl implements IRouteRuleDao {
 
                 if (resultSet.next()) {
                     routeRule = new RouteRule(resultSet.getString("ROUTE_ID"),
-                            resultSet.getString("ROUTE_RULE_ID"), resultSet.getString("STATE"));
-                    routeRule.setRuleBaseInfo(new RuleBaseInfo(resultSet));
+                            resultSet.getString("ROUTE_RULE_ID"), resultSet.getString("STATE"),new RuleBaseInfo(resultSet));
                 }
 
                 return routeRule;

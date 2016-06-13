@@ -51,12 +51,16 @@ public class Route {
                 }.getType());
 
         for (RouteRule rule : ruleIds) {
-            String routeStatus = MCSUtil.load(RedisKeyConfig.RK_RouteRuleStatus(rule.getRuleId()));
-            if (!"N".equals(routeStatus)) {
+            String routeRuleStatus = MCSUtil.load(RedisKeyConfig.RK_RouteRuleStatus(rule.getRuleId()));
+            if ("I".equals(routeRuleStatus)){
+                logger.info("Route RuleId{} status is {}, The Rules have not yet entered into force.",
+                        rule.getRuleId(), "I");
+                continue;
+            }else if (!"N".equals(routeRuleStatus)) {
                 logger.info("Route RuleId{} status is {}, This route cannot be match.",
                         rule.getRuleId(), "N");
                 return true;
-            } else if ("RELOAD".equals(routeStatus)) {
+            } else if ("RELOAD".equals(routeRuleStatus)) {
                 //重新生成ruleData
                 logger.info("Route RuleId{} status is {}, This route data need to be reload.",
                         rule.getRuleId(), "N");
