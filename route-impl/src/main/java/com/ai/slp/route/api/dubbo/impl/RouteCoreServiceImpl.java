@@ -1,6 +1,7 @@
 package com.ai.slp.route.api.dubbo.impl;
 
 import com.ai.opt.base.exception.SystemException;
+import com.ai.opt.sdk.util.StringUtil;
 import com.ai.slp.route.common.entity.RuleItem;
 import com.ai.slp.route.core.IRouteSwitcher;
 import com.ai.slp.route.core.Route;
@@ -23,6 +24,17 @@ public class RouteCoreServiceImpl implements IRouteCoreService {
     @Override
     public String findRoute(SaleProductInfo saleProductInfo) throws SystemException {
         try {
+
+            if (StringUtil.isBlank(saleProductInfo.getRouteGroupId())){
+                logger.error("Route group Id is null");
+                return null;
+            }
+
+            if (StringUtil.isBlank(saleProductInfo.getTenantId())){
+                logger.error("tenant Id is null");
+                return null;
+            }
+
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty(RuleItem.AMOUNT.getFieldName(), saleProductInfo.getTotalConsumption());
             jsonObject.addProperty(RuleItem.ORDERCOUNT.getFieldName(), 1);
