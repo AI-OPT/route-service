@@ -25,9 +25,9 @@ public class RouteRule {
         this.ruleId = ruleId;
         this.ruleBaseInfo = ruleBaseInfo;
         // 还需要校验时间，如果起始时间在现在时间之后，则是未生效状态
-        if (this.ruleBaseInfo.getValidateTime().after(new Timestamp(System.currentTimeMillis()))){
+        if (this.ruleBaseInfo.getValidateTime().after(new Timestamp(System.currentTimeMillis()))) {
             this.ruleStatus = RuleStatus.INEFFECTIVE;
-        }else{
+        } else {
             this.ruleStatus = RuleStatus.convert(state);
         }
     }
@@ -60,7 +60,7 @@ public class RouteRule {
 
         String previousvalue = MCSUtil.load(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
         MCSUtil.expire(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
-        MCSUtil.put(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", ruleBaseInfo.getInvalidateTime().getTime());
+        MCSUtil.put(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", ruleBaseInfo.getInvalidateTime().getTime() / 1000);
         String currentvalue = MCSUtil.load(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
 
         logger.info("Change RK:{} value:{} to {} ", RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()),
@@ -93,7 +93,7 @@ public class RouteRule {
                 case "0": {
                     return INVALIDATE;
                 }
-                case "-1":{
+                case "-1": {
                     return INEFFECTIVE;
                 }
                 default: {
