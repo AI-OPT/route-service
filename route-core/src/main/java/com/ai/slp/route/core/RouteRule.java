@@ -59,7 +59,7 @@ public class RouteRule {
                 //更新status
                 logger.info("{} = {} Update RK[{}] status to {}", resultValue,
                         ruleBaseInfo.getMaxQuantity(), RedisKeyConfig.RK_RouteRuleStatus(ruleId), "INVALIDATE");
-                MCSUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), "RELOADING");
+                setRouteRuleStatus();
             }
         } else {
             if (resultValue > ruleBaseInfo.getMaxQuantity()) {
@@ -70,7 +70,7 @@ public class RouteRule {
                 logger.info("{} in [{},{}] Update RK[{}] status to {}", resultValue, ruleBaseInfo.getMinQuantity(),
                         ruleBaseInfo.getMaxQuantity(),
                         RedisKeyConfig.RK_RouteRuleStatus(ruleId), "INVALIDATE");
-                MCSUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), "RELOADING");
+                setRouteRuleStatus();
             }
         }
 
@@ -83,6 +83,14 @@ public class RouteRule {
         return result;
     }
 
+    private void setRouteRuleStatus() {
+        if (ruleBaseInfo.getTimeType() == TimeType.CYCLE) {
+            MCSUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), "RELOADING");
+        }else{
+            MCSUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), "U");
+        }
+    }
+
     public void reloadData() {
         //
         if (ruleBaseInfo != null) {
@@ -90,7 +98,7 @@ public class RouteRule {
             if (ruleBaseInfo.getTimeType() == TimeType.CYCLE) {
                 nextInvalidateTime = ruleBaseInfo.generateNextInvalidateTime();
             }
-            
+
             //直接更新值，当前值失效，然后只为0，置为失效时间
             MCSUtil.expire(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
             logger.info("Reload rule date, RK[{}] next Invalidate time {}", RedisKeyConfig.RK_RouteRuleStatus(ruleId), nextInvalidateTime);
