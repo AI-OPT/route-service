@@ -62,15 +62,10 @@ public class Route {
                     //重置状态
                     rule.reloadData();
                 }
-            } else if (!"N".equals(routeRuleStatus)) {
+            } else if ("U".equals(routeRuleStatus)) {
                 logger.info("Route RuleId{} status is {}, This route cannot be match.",
                         rule.getRuleId(), "N");
                 return true;
-            } else if ("RELOAD".equals(routeRuleStatus)) {
-                //重新生成ruleData
-                logger.info("Route RuleId{} status is {}, This route data need to be reload.",
-                        rule.getRuleId(), "N");
-                rule.reloadData();
             }
 
 
