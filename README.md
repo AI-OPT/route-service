@@ -92,5 +92,5 @@ SLP核心路由的基础包，主要提供基础能力，比如JDBC连接，Redi
 - Value： N/RELOAD/INVALIDATE
 
 路由规则信息：
-- Key : 规则ID-DATA
+- Key : 规则ID-规则类型-DATA
 - Value： 当前规则的量
