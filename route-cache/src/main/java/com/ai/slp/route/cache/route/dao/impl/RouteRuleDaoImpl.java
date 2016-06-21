@@ -49,7 +49,7 @@ public class RouteRuleDaoImpl implements IRouteRuleDao {
             public RouteRule query(Connection connection) throws SQLException {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, ruleId);
-                preparedStatement.setString(2, "2%");
+                preparedStatement.setString(2, "1");
 
                 ResultSet resultSet = preparedStatement.executeQuery();
 
