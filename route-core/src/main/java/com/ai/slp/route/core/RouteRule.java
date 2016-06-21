@@ -7,7 +7,10 @@ import com.ai.slp.route.common.util.MCSUtil;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.util.SystemClock;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 public class RouteRule {
@@ -27,7 +30,7 @@ public class RouteRule {
         return ruleId;
     }
 
-    public boolean loadRuleData(String routeRuleId) {
+    public boolean loadRuleData(String routeRuleId, String routeRuleStatus) {
         String routeRuleData = MCSUtil.load(RedisKeyConfig.RK_RouteRuleData(routeRuleId, ruleBaseInfo.getRuleItem()));
         if (routeRuleData == null) {
             //如果为空，有两种情况，需要重新加载数据
@@ -41,6 +44,10 @@ public class RouteRule {
                 logger.info("RouteRuleId[{}] has been invalidate, will reload data", routeRuleId);
                 //根据基础信息重新生成
                 reloadData();
+            }
+        }else{
+            if ("RELOADING".equals(routeRuleStatus)){
+                return false;
             }
         }
 
@@ -98,13 +105,14 @@ public class RouteRule {
             if (ruleBaseInfo.getTimeType() == TimeType.CYCLE) {
                 nextInvalidateTime = ruleBaseInfo.generateNextInvalidateTime();
             }
-
-            //直接更新值，当前值失效，然后只为0，置为失效时间
-            MCSUtil.expire(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
-            logger.info("Reload rule date, RK[{}] next Invalidate time {}", RedisKeyConfig.RK_RouteRuleStatus(ruleId), nextInvalidateTime);
-            MCSUtil.putnx(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", nextInvalidateTime.getTime() / 1000);
-            // 更新路由规则状态
-            MCSUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), "N");
+            if (nextInvalidateTime.after(new Timestamp(System.currentTimeMillis()))) {
+                //直接更新值，当前值失效，然后只为0，置为失效时间
+                MCSUtil.expire(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
+                logger.info("Reload rule date, RK[{}] next Invalidate time {}", RedisKeyConfig.RK_RouteRuleStatus(ruleId), nextInvalidateTime);
+                MCSUtil.putnx(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", nextInvalidateTime.getTime() / 1000);
+                // 更新路由规则状态
+                MCSUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), "N");
+            }
         }
     }
 

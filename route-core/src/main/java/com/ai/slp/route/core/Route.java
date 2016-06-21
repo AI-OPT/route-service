@@ -68,8 +68,7 @@ public class Route {
                 return true;
             }
 
-
-            boolean loadDataTag = rule.loadRuleData(rule.getRuleId());
+            boolean loadDataTag = rule.loadRuleData(rule.getRuleId(), routeRuleStatus);
             if (!loadDataTag) {
                 logger.info("Cannot to load the ruleId[{}] data. cause by: {} time type is self-defined, and current date is out of the invalidate date",
                         rule.getRuleId(), rule.getRuleId());
