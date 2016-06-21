@@ -50,6 +50,8 @@ public class Route {
                 new TypeToken<Map<String, Float>>() {
                 }.getType());
 
+        boolean result = false;
+
         for (RouteRule rule : ruleIds) {
             String routeRuleStatus = MCSUtil.load(RedisKeyConfig.RK_RouteRuleStatus(rule.getRuleId()));
             if ("I".equals(routeRuleStatus)) {
@@ -65,29 +67,36 @@ public class Route {
             } else if ("U".equals(routeRuleStatus)) {
                 logger.info("Route RuleId{} status is {}, This route cannot be match.",
                         rule.getRuleId(), "N");
-                return true;
+                result = true;
+                break;
             }
 
             boolean loadDataTag = rule.loadRuleData(rule.getRuleId(), routeRuleStatus);
             if (!loadDataTag) {
                 logger.info("Cannot to load the ruleId[{}] data. cause by: {} time type is self-defined, and current date is out of the invalidate date",
                         rule.getRuleId(), rule.getRuleId());
-                return true;
+                result = true;
+                break;
             }
 
             Float testValue = rule.getRuleBaseInfo().getRuleItem().fetchTestValue(dataMap);
             if (!rule.match(testValue)) {
-                // 加入不匹配，之前通过的数据都需要被回滚
-                for (Map.Entry<String, Float> entry : hasBeenIncrement.entrySet()) {
-                    MCSUtil.atomDecrement(entry.getKey(), entry.getValue());
-                }
-                logger.warn("RuleId[{}] don't match value, to be roll back previous date", rule.getRuleId());
-                return true;
+                result = true;
+                break;
             } else {
                 hasBeenIncrement.put(RedisKeyConfig.RK_RouteRuleData(rule.getRuleId(), rule.getRuleBaseInfo().getRuleItem()), testValue);
             }
         }
 
-        return false;
+        if (result) {
+            // 加入不匹配，之前通过的数据都需要被回滚
+            for (Map.Entry<String, Float> entry : hasBeenIncrement.entrySet()) {
+                MCSUtil.atomDecrement(entry.getKey(), entry.getValue());
+            }
+
+            logger.warn("RuleId don't match value, to be roll back previous date");
+        }
+
+        return result;
     }
 }
