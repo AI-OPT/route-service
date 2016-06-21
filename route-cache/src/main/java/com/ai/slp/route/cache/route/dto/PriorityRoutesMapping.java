@@ -48,10 +48,7 @@ public class PriorityRoutesMapping {
     public String appendAllRouteIds() {
         StringBuilder routedIds = new StringBuilder();
         for (Route route : routeList) {
-            // 路由要是没有规则，则不需要加入到Redis中
-            if (route.getRouteRules().size() != 0) {
-                routedIds.append(route.getRouteId() + ",");
-            }
+            routedIds.append(route.getRouteId() + ",");
         }
 
         if (routedIds.length() > 0) {
@@ -64,10 +61,7 @@ public class PriorityRoutesMapping {
     public void refreshAllRoutesCache() {
         for (Route route : routeList) {
             // 路由要是没有规则，则不需要加入到Redis中
-            if (route.getRouteRules().size() != 0) {
-
-                route.refreshCache();
-            }
+            route.refreshCache();
         }
     }
 }
