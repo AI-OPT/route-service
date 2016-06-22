@@ -2,11 +2,13 @@ package com.ai.slp.route.cache.route.dto;
 
 import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.entity.RuleBaseInfo;
+import com.ai.slp.route.common.entity.RuleItem;
 import com.ai.slp.route.common.util.MCSUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 /**
  * Created by xin on 16-4-29.
@@ -74,6 +76,24 @@ public class RouteRule {
         logger.info("Change RK:{} value:{} to {} ", RedisKeyConfig.RK_RouteRuleStatus(ruleId),
                 previousvalue, currentvalue);
 
+
+        //
+        boolean result = true;
+        Set<String> ruleIds = MCSUtil.hLoads(RedisKeyConfig.RK_Route(routeId)).keySet();
+        for (String ruleId : ruleIds) {
+            if (ruleId.equals(this.ruleId)) {
+                continue;
+            }
+            String ruleStatus = MCSUtil.load(RedisKeyConfig.RK_RouteRuleStatus(ruleId));
+            if (!"N".equals(ruleStatus)) {
+                result = false;
+                break;
+            }
+        }
+
+        if (result) {
+            MCSUtil.put(RedisKeyConfig.RK_RouteStatus(routeId), Route.RouteStatus.VALIDATE.getValue());
+        }
     }
 
     public enum RuleStatus {

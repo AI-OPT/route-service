@@ -6,10 +6,6 @@ import com.ai.slp.route.cache.route.dto.RouteRule;
 import com.ai.slp.route.cache.route.service.IRouteGroupService;
 import com.ai.slp.route.cache.route.service.IRouteRuleService;
 import com.ai.slp.route.cache.route.service.IRouteService;
-import com.ai.slp.route.common.config.RedisKeyConfig;
-import com.ai.slp.route.common.util.MCSUtil;
-import com.ai.slp.route.common.util.RedisUtil;
-import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -77,8 +73,10 @@ public class RouteCacheImpl implements IRouteCache {
             RouteRule routeRule = routeRuleService.queryRouteRuleById(ruleId);
             if (routeRule != null) {
                 //需要更新Route的信息
-                MCSUtil.hput(RedisKeyConfig.RK_Route(routeRule.getRouteId()), routeRule.getRouteId(),
-                        new Gson().toJson(routeRule.getRuleBaseInfo()));
+                Route route = routeService.queryRouteById(routeRule.getRouteId());
+                if (route != null) {
+                    route.refreshRouteData();
+                }
                 routeRule.refreshCache();
             }
             return true;

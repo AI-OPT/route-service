@@ -2,7 +2,6 @@ package com.ai.slp.route.cache.route.dto;
 
 import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.util.MCSUtil;
-import com.ai.slp.route.common.util.RedisUtil;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,10 +37,20 @@ public class Route {
     }
 
     public void refreshCache() {
+        refreshRouteRuleData();
+        refreshRouteData();
+    }
+
+    public void refreshRouteRuleData() {
+        for (RouteRule routeRule : routeRules) {
+            routeRule.refreshCache();
+        }
+    }
+
+    public void refreshRouteData() {
         Map<String, String> ruleBaseInfoMap = new HashMap<String, String>();
         for (RouteRule routeRule : routeRules) {
             ruleBaseInfoMap.put(routeRule.getRuleId(), new Gson().toJson(routeRule.getRuleBaseInfo()));
-            routeRule.refreshCache();
         }
 
         MCSUtil.expire(RedisKeyConfig.RK_Route(routeId));
@@ -82,5 +91,9 @@ public class Route {
 
     public List<RouteRule> getRouteRules() {
         return routeRules;
+    }
+
+    public RouteStatus getRouteStatus() {
+        return routeStatus;
     }
 }
