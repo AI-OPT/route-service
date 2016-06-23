@@ -1,6 +1,5 @@
 package com.ai.slp.route.common.entity;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -45,8 +44,9 @@ public enum CycleUnit {
             }
             case QUARTER: {
                 int quarterNumber = getQuarter(calendar.get(Calendar.MONTH));
-                calendar.set(Calendar.MONTH, getQuarterInMonth((quarterNumber + 1)%4));
-                calendar.add(Calendar.MONTH, (++value) * 3);
+                calendar.add(Calendar.YEAR, (quarterNumber + value ) / 4);
+                calendar.set(Calendar.MONTH, getQuarterInMonth((quarterNumber + value) % 4));
+                calendar.add(Calendar.MONTH, 1);
                 calendar.set(Calendar.DATE, 1);
                 calendar.add(Calendar.DATE, -1);
                 break;
