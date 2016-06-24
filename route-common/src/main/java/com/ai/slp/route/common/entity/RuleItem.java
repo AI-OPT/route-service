@@ -3,9 +3,11 @@ package com.ai.slp.route.common.entity;
 import java.util.Map;
 
 /**
+ * 路由规则类型
  * Created by xin on 16-4-28.
  */
 public enum RuleItem {
+    //金额 订单量
     AMOUNT("amount"), ORDERCOUNT("orderCount");
 
     String fieldName;

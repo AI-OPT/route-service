@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
+ * 路由规则基本信息
  * Created by xin on 16-4-28.
  */
 public class RuleBaseInfo implements Serializable {

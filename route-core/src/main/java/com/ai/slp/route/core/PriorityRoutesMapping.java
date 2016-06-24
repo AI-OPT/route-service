@@ -6,12 +6,13 @@ import org.apache.logging.log4j.Logger;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
+ * 优先级与路由映射
  * Created by xin on 16-4-27.
  */
 public class PriorityRoutesMapping {
     private Logger logger = LogManager.getLogger(PriorityRoutesMapping.class);
-    private String priority;
-    private String[] routeInRedisKeyArray;
+    private String priority; //优先级
+    private String[] routeInRedisKeyArray;//优先级下所有路由的cache的key
 
     public PriorityRoutesMapping(String priority, String routeIds) {
         this.priority = priority;

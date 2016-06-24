@@ -15,6 +15,13 @@ public enum CycleUnit {
         this.value = value;
     }
 
+    /**
+     * 生成下一次失效时间
+     * @param startDate
+     * @param value
+     * @param unit
+     * @return
+     */
     public static Timestamp buildNextInvalidTimeStamp(Timestamp startDate, int value, CycleUnit unit) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);

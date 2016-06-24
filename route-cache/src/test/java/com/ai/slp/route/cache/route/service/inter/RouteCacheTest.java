@@ -13,7 +13,6 @@ import com.ai.slp.route.common.entity.RuleBaseInfo;
 import com.ai.slp.route.common.entity.RuleItem;
 import com.ai.slp.route.common.entity.TimeType;
 import com.ai.slp.route.common.util.MCSUtil;
-import com.ai.slp.route.common.util.RedisUtil;
 import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 路由信息
  * Created by xin on 16-4-27.
  */
 public class Route {

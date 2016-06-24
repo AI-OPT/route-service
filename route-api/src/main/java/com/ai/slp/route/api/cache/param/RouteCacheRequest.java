@@ -6,10 +6,17 @@ import com.ai.opt.base.vo.BaseInfo;
  * Created by xin on 16-6-3.
  */
 public class RouteCacheRequest extends BaseInfo {
+    /**
+     * 路由ID
+     */
     private String routeId;
-
+    /**
+     * 路由组ID
+     */
     private String routeGroupId;
-
+    /**
+     * 规则ID
+     */
     private String ruleId;
 
     public String getRouteId() {

@@ -6,10 +6,12 @@ import com.ai.opt.base.vo.BaseInfo;
  * Created by xin on 16-4-22.
  */
 public class SaleProductInfo extends BaseInfo {
-
+    /**
+     * 路由组ID
+     */
     private String routeGroupId;
 
-    // 单位：厘
+    // 商品金额 单位：厘
     private float totalConsumption;
 
 
