@@ -38,7 +38,7 @@ subprojects {
     }
 }
 
-project("route-api") {
+project("route-service-api") {
     project.ext {
         moduleName = "route-api"
         apiDir =  "src/main/java/com/ai/slp/route/api/"
@@ -55,7 +55,7 @@ project("route-api") {
     publish.dependsOn build
 }
 
-project("route-core") {
+project("route-service-core") {
     project.ext {
         moduleName = "route-core"
     }
@@ -69,52 +69,6 @@ project("route-core") {
         }
     }
 }
-
-project("route-impl") {
-    project.ext {
-        moduleName = "route-impl"
-    }
-
-    jar {
-        baseName moduleName
-        version moduleVersion
-        include 'com/ai/slp/**'
-        manifest {
-            attributes 'packageName': moduleName, 'create-date': new Date().format('yyyy-MM-dd HH:mm:ss')
-        }
-    }
-}
-
-project("route-cache") {
-    project.ext {
-        moduleName = "route-cache"
-    }
-
-    jar {
-        baseName moduleName
-        version moduleVersion
-        include 'com/ai/slp/**'
-        manifest {
-            attributes 'packageName': moduleName, 'create-date': new Date().format('yyyy-MM-dd HH:mm:ss')
-        }
-    }
-}
-
-project("route-common") {
-    project.ext {
-        moduleName = "route-common"
-    }
-
-    jar {
-        baseName moduleName
-        version moduleVersion
-        include 'com/ai/slp/**'
-        manifest {
-            attributes 'packageName': moduleName, 'create-date': new Date().format('yyyy-MM-dd HH:mm:ss')
-        }
-    }
-}
-
 
 jar {
     baseName baseName

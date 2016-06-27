@@ -1,7 +1,3 @@
-rootProject.name = 'route-api'
-include 'route-core'
-include 'route-api'
-include 'route-impl'
-include 'route-cache'
-include 'route-common'
+include 'route-service-core'
+include 'route-service-api'
 

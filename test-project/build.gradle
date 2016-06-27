@@ -1,5 +1,0 @@
-dependencies {
-    compile project(":route-api")
-    compile project(":route-core")
-
-}
