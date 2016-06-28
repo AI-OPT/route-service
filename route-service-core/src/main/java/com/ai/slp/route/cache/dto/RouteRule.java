@@ -1,12 +1,12 @@
 package com.ai.slp.route.cache.dto;
 
+import com.ai.opt.sdk.util.DateUtil;
 import com.ai.slp.route.util.CacheKeyUtil;
 import com.ai.slp.route.util.MCSUtil;
 import com.ai.slp.route.vo.RuleBaseInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Timestamp;
 import java.util.Set;
 
 /**
@@ -26,7 +26,7 @@ public class RouteRule {
         this.ruleId = ruleId;
         this.ruleBaseInfo = ruleBaseInfo;
         // 还需要校验时间，如果起始时间在现在时间之后，则是未生效状态
-        if (this.ruleBaseInfo.getValidateTime().after(new Timestamp(System.currentTimeMillis()))) {
+        if (this.ruleBaseInfo.getValidateTime().after(DateUtil.getSysDate())) {
             this.ruleStatus = RuleStatus.INEFFECTIVE;
         } else {
             this.ruleStatus = RuleStatus.convert(state);
