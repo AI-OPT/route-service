@@ -25,12 +25,7 @@
     <dubbo:annotation package="com.ai.slp.route.api.dubbo"/>
 
     <context:component-scan base-package="com.ai.slp.route"/>
-    <bean id="routeGroupSwitcher" class="com.ai.slp.route.core.RouteSwitcherImpl"/>
-    <import resource="classpath*:cacheContext.xml"/>
 
-    <!-- 配置数据源 -->
-    <bean id="dataSource" class="com.ai.opt.sdk.datasource.OptHikariDataSource">
-        <constructor-arg name="dataSourceName" value="slp-route-db"/>
-    </bean>
+    <import resource="../../context/core-context.xml" />
 
 </beans>
