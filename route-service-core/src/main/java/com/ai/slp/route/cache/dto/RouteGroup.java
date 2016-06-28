@@ -51,10 +51,13 @@ public class RouteGroup {
         }
 
         logger.debug("Refresh key : {}, refresh Value: {}", routeGroupRedisKey, priorityRouteMapping);
+        //设置缓存key失效
         MCSUtil.expire(routeGroupRedisKey);
+        //路由组优先级对应路由标识
         MCSUtil.hput(routeGroupRedisKey, priorityRouteMapping);
-
+        //设置缓存key失效
         MCSUtil.expire(CacheKeyUtil.RK_RouteGroupStatus(tenantId, routeGroupId));
+        //路由组状态
         MCSUtil.put(CacheKeyUtil.RK_RouteGroupStatus(tenantId, routeGroupId),
                 groupStatus.getValue());
     }

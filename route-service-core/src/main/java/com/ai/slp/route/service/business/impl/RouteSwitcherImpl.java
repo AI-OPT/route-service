@@ -13,12 +13,14 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
 
     @Override
     public Route switchRoute(String tenantId, String groupId, String dataJson) {
+        Route route = null;
         RouteGroup routeGroup = RouteGroup.load(tenantId, groupId);
-        if (routeGroup == null) {
-            logger.error("Failed to find the tenantId:{}, groupId:{}", tenantId, groupId);
-            return null;
-        }
-        return switchRoute(routeGroup, dataJson);
+        if (routeGroup != null) {
+            route = switchRoute(routeGroup, dataJson);
+        }else
+            logger.error("Failed to find the route group, tenantId:{}, groupId:{}", tenantId, groupId);
+
+        return route;
     }
 
     private Route switchRoute(RouteGroup routeGroup, String dataJson) {

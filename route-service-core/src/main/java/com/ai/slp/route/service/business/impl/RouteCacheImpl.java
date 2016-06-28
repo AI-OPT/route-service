@@ -65,6 +65,11 @@ public class RouteCacheImpl implements IRouteCache {
         }
     }
 
+    /**
+     * 刷新指定路由的规则
+     * @param routeId
+     * @return
+     */
     @Override
     public boolean refreshRoute(String routeId) {
         try {

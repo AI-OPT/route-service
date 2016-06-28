@@ -29,6 +29,7 @@ public class RouteGroupServiceImpl implements IRouteGroupService {
         List<RouteGroup> routeGroups = routeGroupDao.queryAllNormalRouteGroups(tenantId);
         // 查询优先级
         for (RouteGroup routeGroup : routeGroups) {
+            //查询该路由组下优先级
             List<PriorityRoutesMapping> routesMappings = routeGroupDao.queryPriorityRoutes(routeGroup.getRouteGroupId());
             filledPriorityRoutesMappingObject(routesMappings);
             routeGroup.addPriorityMapping(routesMappings);
@@ -52,7 +53,7 @@ public class RouteGroupServiceImpl implements IRouteGroupService {
                 if (!routeDao.checkStatusIsValidate(route.getRouteId())){
                     continue;
                 }
-
+                //查询此路由下的路由规则
                 List<RouteRule> routeRules = routeRuleDao.queryRouteRuleByRouteId(route.getRouteId());
                 route.setRouteRules(routeRules);
             }

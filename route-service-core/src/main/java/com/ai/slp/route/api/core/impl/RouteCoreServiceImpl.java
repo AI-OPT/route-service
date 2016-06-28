@@ -24,26 +24,18 @@ public class RouteCoreServiceImpl implements IRouteCoreService {
     @Override
     public String findRoute(SaleProductInfo saleProductInfo) throws SystemException {
         try {
-
-            if (StringUtil.isBlank(saleProductInfo.getRouteGroupId())){
-                logger.error("Route group Id is null");
-                return null;
-            }
-
-            if (StringUtil.isBlank(saleProductInfo.getTenantId())){
-                logger.error("tenant Id is null");
+            String tenantId = saleProductInfo.getTenantId(),routeGroupId = saleProductInfo.getRouteGroupId();
+            if (StringUtil.isBlank(tenantId) || StringUtil.isBlank(routeGroupId)){
+                logger.error("Tenant id or Route group Id is null,tenantID:{},routeGroupId:{}",tenantId,routeGroupId);
                 return null;
             }
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty(RuleType.AMOUNT.getFieldName(), saleProductInfo.getTotalConsumption());
             jsonObject.addProperty(RuleType.ORDERCOUNT.getFieldName(), 1);
-            Route route = routeGroup.switchRoute(saleProductInfo.getTenantId(), saleProductInfo.getRouteGroupId(),
-                    jsonObject.toString());
-            if (route != null) {
-                return route.getRouteId();
-            }
-            return null;
+            Route route = routeGroup.switchRoute(tenantId, routeGroupId,jsonObject.toString());
+
+            return route == null?null:route.getRouteId();
         } catch (Exception e) {
             logger.error(e);
             throw new SystemException("Failed to find Supplier.", e);
