@@ -22,6 +22,12 @@ public class RouteCacheImpl implements IRouteCache {
 
     private IRouteRuleService routeRuleService;
 
+    /**
+     * 刷新指定租户下所有路由规则
+     * @param tenantId
+     * @return
+     * @throws SQLException
+     */
     @Override
     public boolean refreshAllCache(String tenantId) throws SQLException {
         try {
@@ -37,6 +43,12 @@ public class RouteCacheImpl implements IRouteCache {
         }
     }
 
+    /**
+     * 刷新指定路由组下路由规则
+     * @param routeGroupId
+     * @return
+     * @throws SQLException
+     */
     @Override
     public boolean refreshRouteGroup(String routeGroupId) throws SQLException {
         try {

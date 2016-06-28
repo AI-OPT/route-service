@@ -2,7 +2,7 @@ package com.ai.slp.route.cache.dao.impl;
 
 import com.ai.slp.route.cache.dao.IRouteDao;
 import com.ai.slp.route.cache.dto.Route;
-import com.ai.slp.route.common.util.DBQueryTemplate;
+import com.ai.slp.route.util.DBQueryTemplate;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

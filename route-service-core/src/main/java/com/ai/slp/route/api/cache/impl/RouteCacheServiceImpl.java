@@ -1,6 +1,7 @@
 package com.ai.slp.route.api.cache.impl;
 
 import com.ai.opt.base.exception.SystemException;
+import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.slp.route.api.cache.interfaces.IRouteCacheService;
 import com.ai.slp.route.api.cache.param.RouteCacheRequest;
@@ -30,7 +31,8 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
             return routeCache.refreshAllCache(request.getTenantId());
         } catch (Exception e) {
             logger.error(e);
-            throw new SystemException("999999", "Failed to refresh all route group Cache");
+            throw new SystemException(ExceptCodeConstants.Special.SYSTEM_ERROR,
+                    "Failed to refresh all route group Cache");
         }
     }
 
@@ -44,7 +46,8 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
             return routeCache.refreshRouteGroup(request.getRouteGroupId());
         } catch (Exception e) {
             logger.error(e);
-            throw new SystemException("999999", "Failed to refresh route group cache");
+            throw new SystemException(ExceptCodeConstants.Special.SYSTEM_ERROR,
+                    "Failed to refresh route group cache");
         }
     }
 
@@ -58,7 +61,8 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
             return routeCache.refreshRoute(request.getRouteId());
         } catch (Exception e) {
             logger.error(e);
-            throw new SystemException("999999", "Failed to refresh route cache");
+            throw new SystemException(ExceptCodeConstants.Special.SYSTEM_ERROR,
+                    "Failed to refresh route cache");
         }
     }
 
@@ -71,7 +75,8 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
             return routeCache.refreshRule(request.getRuleId());
         } catch (Exception e) {
             logger.error(e);
-            throw new SystemException("999999", "Failed to refresh route rule cache");
+            throw new SystemException(ExceptCodeConstants.Special.SYSTEM_ERROR,
+                    "Failed to refresh route rule cache");
         }
     }
 }

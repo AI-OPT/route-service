@@ -3,7 +3,7 @@ package com.ai.slp.route.core;
 import com.ai.slp.route.common.config.RedisKeyConfig;
 import com.ai.slp.route.common.entity.RuleBaseInfo;
 import com.ai.slp.route.common.entity.TimeType;
-import com.ai.slp.route.common.util.MCSUtil;
+import com.ai.slp.route.util.MCSUtil;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

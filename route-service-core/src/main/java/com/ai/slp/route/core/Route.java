@@ -1,7 +1,7 @@
 package com.ai.slp.route.core;
 
 import com.ai.slp.route.common.config.RedisKeyConfig;
-import com.ai.slp.route.common.util.MCSUtil;
+import com.ai.slp.route.util.MCSUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.logging.log4j.LogManager;

@@ -1,4 +1,4 @@
-package com.ai.slp.route.common.util;
+package com.ai.slp.route.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
