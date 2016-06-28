@@ -1,5 +1,8 @@
-package com.ai.slp.route.core;
+package com.ai.slp.route.core.service;
 
+import com.ai.slp.route.core.IRouteSwitcher;
+import com.ai.slp.route.core.Route;
+import com.ai.slp.route.core.RouteSwitcherImpl;
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
@@ -7,7 +10,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Created by xin on 16-5-3.
  */
-public class RouteGroupImplTest {
+public class RouteGroupTest {
 
     @Test
     public void testSwitchRoute() throws InterruptedException {

@@ -1,11 +1,15 @@
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
     compile project(":route-service-api")
 
     compile 'org.apache.httpcomponents:httpclient:4.5.2'
-    compile 'com.ai.slp.common:cache:1.0-SNAPSHOT'
-
     compile 'com.ai.opt.sdk:opt-sdk:2.0-SNAPSHOT'
     compile 'com.zaxxer:HikariCP:2.4.5'
     compile 'mysql:mysql-connector-java:5.1.38'
+
+    //公共缓存
+    compile 'com.ai.slp.common:cache:1.0-SNAPSHOT'
+    testCompile(
+            "org.springframework:spring-test:4.1.7.RELEASE",
+            "junit:junit:4.12"
+    )
 }

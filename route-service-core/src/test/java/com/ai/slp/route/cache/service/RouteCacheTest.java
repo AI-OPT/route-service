@@ -1,4 +1,4 @@
-package com.ai.slp.route.cache.service.inter;
+package com.ai.slp.route.cache.service;
 
 import com.ai.slp.route.cache.IRouteCache;
 import com.ai.slp.route.cache.RouteCacheImpl;
@@ -12,7 +12,7 @@ import com.ai.slp.route.common.entity.CycleUnit;
 import com.ai.slp.route.common.entity.RuleBaseInfo;
 import com.ai.slp.route.common.entity.RuleItem;
 import com.ai.slp.route.common.entity.TimeType;
-import com.ai.slp.route.common.util.MCSUtil;
+import com.ai.slp.route.util.MCSUtil;
 import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
