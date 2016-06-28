@@ -50,10 +50,7 @@ public class PriorityRoutesMapping {
             }
         }
 
-        if (resultFlag) {
-            return route;
-        } else {
-            return null;
-        }
+
+        return resultFlag?route:null;
     }
 }

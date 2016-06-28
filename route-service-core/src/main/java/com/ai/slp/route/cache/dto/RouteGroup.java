@@ -1,6 +1,6 @@
 package com.ai.slp.route.cache.dto;
 
-import com.ai.slp.route.common.config.RedisKeyConfig;
+import com.ai.slp.route.util.CacheKeyUtil;
 import com.ai.slp.route.util.MCSUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,7 +42,7 @@ public class RouteGroup {
     }
 
     public void refreshCache() {
-        String routeGroupRedisKey = RedisKeyConfig.RK_RouteGroup(tenantId, routeGroupId);
+        String routeGroupRedisKey = CacheKeyUtil.RK_RouteGroup(tenantId, routeGroupId);
         // 优先级和路由组ID
         Map<String, String> priorityRouteMapping = new HashMap<String, String>();
         for (PriorityRoutesMapping mapping : priorityRoutesMappings) {
@@ -54,8 +54,8 @@ public class RouteGroup {
         MCSUtil.expire(routeGroupRedisKey);
         MCSUtil.hput(routeGroupRedisKey, priorityRouteMapping);
 
-        MCSUtil.expire(RedisKeyConfig.RK_RouteGroupStatus(tenantId, routeGroupId));
-        MCSUtil.put(RedisKeyConfig.RK_RouteGroupStatus(tenantId, routeGroupId),
+        MCSUtil.expire(CacheKeyUtil.RK_RouteGroupStatus(tenantId, routeGroupId));
+        MCSUtil.put(CacheKeyUtil.RK_RouteGroupStatus(tenantId, routeGroupId),
                 groupStatus.getValue());
     }
 

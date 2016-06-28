@@ -1,8 +1,8 @@
 package com.ai.slp.route.cache.dto;
 
-import com.ai.slp.route.common.config.RedisKeyConfig;
-import com.ai.slp.route.common.entity.RuleBaseInfo;
+import com.ai.slp.route.util.CacheKeyUtil;
 import com.ai.slp.route.util.MCSUtil;
+import com.ai.slp.route.vo.RuleBaseInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -59,31 +59,31 @@ public class RouteRule {
 
     public void refreshCache() {
 
-        String previousvalue = MCSUtil.load(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
-        MCSUtil.expire(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
-        MCSUtil.put(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", ruleBaseInfo.getInvalidateTime().getTime() / 1000);
-        String currentvalue = MCSUtil.load(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
+        String previousvalue = MCSUtil.load(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()));
+        MCSUtil.expire(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()));
+        MCSUtil.put(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()), "0", ruleBaseInfo.getInvalidateTime().getTime() / 1000);
+        String currentvalue = MCSUtil.load(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()));
 
-        logger.info("Change RK:{} value:{} to {} ", RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()),
+        logger.info("Change RK:{} value:{} to {} ", CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()),
                 previousvalue, currentvalue);
 
-        previousvalue = MCSUtil.load(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
-        MCSUtil.expire(RedisKeyConfig.RK_RouteRuleStatus(ruleId));
-        MCSUtil.put(RedisKeyConfig.RK_RouteRuleStatus(ruleId), ruleStatus.getValue());
-        currentvalue = MCSUtil.load(RedisKeyConfig.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
+        previousvalue = MCSUtil.load(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()));
+        MCSUtil.expire(CacheKeyUtil.RK_RouteRuleStatus(ruleId));
+        MCSUtil.put(CacheKeyUtil.RK_RouteRuleStatus(ruleId), ruleStatus.getValue());
+        currentvalue = MCSUtil.load(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()));
 
-        logger.info("Change RK:{} value:{} to {} ", RedisKeyConfig.RK_RouteRuleStatus(ruleId),
+        logger.info("Change RK:{} value:{} to {} ", CacheKeyUtil.RK_RouteRuleStatus(ruleId),
                 previousvalue, currentvalue);
 
 
         //
         boolean result = true;
-        Set<String> ruleIds = MCSUtil.hLoads(RedisKeyConfig.RK_Route(routeId)).keySet();
+        Set<String> ruleIds = MCSUtil.hLoads(CacheKeyUtil.RK_Route(routeId)).keySet();
         for (String ruleId : ruleIds) {
             if (ruleId.equals(this.ruleId)) {
                 continue;
             }
-            String ruleStatus = MCSUtil.load(RedisKeyConfig.RK_RouteRuleStatus(ruleId));
+            String ruleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(ruleId));
             if (!"N".equals(ruleStatus)) {
                 result = false;
                 break;
@@ -91,7 +91,7 @@ public class RouteRule {
         }
 
         if (result) {
-            MCSUtil.put(RedisKeyConfig.RK_RouteStatus(routeId), Route.RouteStatus.VALIDATE.getValue());
+            MCSUtil.put(CacheKeyUtil.RK_RouteStatus(routeId), Route.RouteStatus.VALIDATE.getValue());
         }
     }
 

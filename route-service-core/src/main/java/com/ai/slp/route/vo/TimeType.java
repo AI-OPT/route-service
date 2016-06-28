@@ -1,4 +1,4 @@
-package com.ai.slp.route.common.entity;
+package com.ai.slp.route.vo;
 
 /**
  * 路由规则时间类型

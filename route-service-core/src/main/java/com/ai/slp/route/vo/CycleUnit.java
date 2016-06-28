@@ -1,4 +1,4 @@
-package com.ai.slp.route.common.entity;
+package com.ai.slp.route.vo;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -80,6 +80,11 @@ public enum CycleUnit {
         return months[quarterNumber];
     }
 
+    /**
+     * 确认月份所属季度
+     * @param month
+     * @return
+     */
     private static int getQuarter(int month) {
         if (month >= 0 && month <= 2)
             return 0;

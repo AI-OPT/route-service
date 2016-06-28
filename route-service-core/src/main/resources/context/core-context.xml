@@ -18,28 +18,28 @@
         <constructor-arg name="dataSourceName" value="slp-route-db"/>
     </bean>
 
-    <bean id="routeGroupSwitcher" class="com.ai.slp.route.core.RouteSwitcherImpl"/>
+    <bean id="routeGroupSwitcher" class="com.ai.slp.route.service.business.impl.RouteSwitcherImpl"/>
     <bean id="routeDao" class="com.ai.slp.route.cache.dao.impl.RouteDaoImpl"></bean>
     <bean id="routeGroupDao" class="com.ai.slp.route.cache.dao.impl.RouteGroupDaoImpl"></bean>
     <bean id="routeRuleDao" class="com.ai.slp.route.cache.dao.impl.RouteRuleDaoImpl"></bean>
 
 
-    <bean id="routeService" class="com.ai.slp.route.cache.service.impl.RouteServiceImpl">
+    <bean id="routeService" class="com.ai.slp.route.service.atom.impl.RouteServiceImpl">
         <property name="routeDao" ref="routeDao"></property>
         <property name="routeRuleDao" ref="routeRuleDao"></property>
     </bean>
 
-    <bean id="routeRuleService" class="com.ai.slp.route.cache.service.impl.RouteRuleServiceImpl">
+    <bean id="routeRuleService" class="com.ai.slp.route.service.atom.impl.RouteRuleServiceImpl">
         <property name="routeRuleDao" ref="routeRuleDao"></property>
     </bean>
 
-    <bean id="routeGroupService" class="com.ai.slp.route.cache.service.impl.RouteGroupServiceImpl">
+    <bean id="routeGroupService" class="com.ai.slp.route.service.atom.impl.RouteGroupServiceImpl">
         <property name="routeRuleDao" ref="routeRuleDao"></property>
         <property name="routeDao" ref="routeDao"></property>
         <property name="routeGroupDao" ref="routeGroupDao"></property>
     </bean>
 
-    <bean id="routeCache" class="com.ai.slp.route.cache.RouteCacheImpl">
+    <bean id="routeCache" class="com.ai.slp.route.service.business.impl.RouteCacheImpl">
         <property name="routeService" ref="routeService"></property>
         <property name="routeGroupService" ref="routeGroupService"/>
         <property name="routeRuleService" ref="routeRuleService"/>

@@ -1,18 +1,18 @@
 package com.ai.slp.route.cache.service;
 
-import com.ai.slp.route.cache.IRouteCache;
-import com.ai.slp.route.cache.RouteCacheImpl;
 import com.ai.slp.route.cache.dao.impl.RouteDaoImpl;
 import com.ai.slp.route.cache.dao.impl.RouteGroupDaoImpl;
 import com.ai.slp.route.cache.dao.impl.RouteRuleDaoImpl;
 import com.ai.slp.route.cache.dto.Route;
-import com.ai.slp.route.cache.service.impl.RouteGroupServiceImpl;
-import com.ai.slp.route.common.config.RedisKeyConfig;
-import com.ai.slp.route.common.entity.CycleUnit;
-import com.ai.slp.route.common.entity.RuleBaseInfo;
-import com.ai.slp.route.common.entity.RuleItem;
-import com.ai.slp.route.common.entity.TimeType;
+import com.ai.slp.route.service.atom.impl.RouteGroupServiceImpl;
+import com.ai.slp.route.service.business.impl.RouteCacheImpl;
+import com.ai.slp.route.service.business.interfaces.IRouteCache;
+import com.ai.slp.route.util.CacheKeyUtil;
 import com.ai.slp.route.util.MCSUtil;
+import com.ai.slp.route.vo.CycleUnit;
+import com.ai.slp.route.vo.RuleBaseInfo;
+import com.ai.slp.route.vo.RuleType;
+import com.ai.slp.route.vo.TimeType;
 import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,11 +34,11 @@ public class RouteCacheTest {
     @Test
     public void testRefreshAllCache() throws SQLException, ParseException {
         routeCacheA.refreshAllCache("SLP-001");
-        String value = MCSUtil.hLoad(RedisKeyConfig.RK_Route("ROUTE-001"), "RT-RULE-001");
+        String value = MCSUtil.hLoad(CacheKeyUtil.RK_Route("ROUTE-001"), "RT-RULE-001");
         RuleBaseInfo ruleBaseInfo = new Gson().fromJson(value, RuleBaseInfo.class);
         assertEquals(ruleBaseInfo.getMaxQuantity(), 100D, 0);
         assertEquals(ruleBaseInfo.getMinQuantity(), -1D, 0);
-        assertEquals(ruleBaseInfo.getRuleItem(), RuleItem.ORDERCOUNT);
+        assertEquals(ruleBaseInfo.getRuleType(), RuleType.ORDERCOUNT);
         assertEquals(ruleBaseInfo.getCycleUnit(), CycleUnit.DAY);
         assertEquals(ruleBaseInfo.getCycleValue(), 3);
         assertEquals(ruleBaseInfo.getTimeType(), TimeType.CYCLE);

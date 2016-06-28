@@ -2,7 +2,7 @@ package com.ai.slp.route.util;
 
 import com.ai.opt.sdk.components.mcs.MCSClientFactory;
 import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
-import com.ai.slp.route.common.config.Constants;
+import com.ai.slp.route.constants.IPaasConfConstants;
 
 import java.util.Map;
 
@@ -60,7 +60,7 @@ public class MCSUtil {
     }
 
     private static ICacheClient getCacheClient(){
-        return MCSClientFactory.getCacheClient(Constants.MCSConfig.REGISTER_NAMESPACE);
+        return MCSClientFactory.getCacheClient(IPaasConfConstants.MCSConfig.REGISTER_NAMESPACE);
     }
 
 }

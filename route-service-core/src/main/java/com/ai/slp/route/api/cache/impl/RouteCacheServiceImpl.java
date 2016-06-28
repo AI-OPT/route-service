@@ -5,7 +5,7 @@ import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.slp.route.api.cache.interfaces.IRouteCacheService;
 import com.ai.slp.route.api.cache.param.RouteCacheRequest;
-import com.ai.slp.route.cache.IRouteCache;
+import com.ai.slp.route.service.business.interfaces.IRouteCache;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,4 +1,4 @@
-package com.ai.slp.route.common.entity;
+package com.ai.slp.route.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -13,7 +13,7 @@ import java.util.Calendar;
  */
 public class RuleBaseInfo implements Serializable {
     private TimeType timeType;
-    private RuleItem ruleItem;
+    private RuleType ruleType;
     private CycleUnit cycleUnit;
     private Timestamp validateTime;
     private int cycleValue;
@@ -23,7 +23,7 @@ public class RuleBaseInfo implements Serializable {
 
 
     public RuleBaseInfo(ResultSet resultSet) throws SQLException {
-        ruleItem = RuleItem.convert(resultSet.getString("ROUTE_RULE_ITEM"));
+        ruleType = RuleType.convert(resultSet.getString("ROUTE_RULE_ITEM"));
         timeType = TimeType.convert(resultSet.getString("TIME_TYPE"));
         validateTime = resultSet.getTimestamp("BEGIN_DATE");
         if (timeType == TimeType.CYCLE) {
@@ -67,8 +67,8 @@ public class RuleBaseInfo implements Serializable {
         return maxQuantity;
     }
 
-    public RuleItem getRuleItem() {
-        return ruleItem;
+    public RuleType getRuleType() {
+        return ruleType;
     }
 
     public CycleUnit getCycleUnit() {

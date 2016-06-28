@@ -1,6 +1,6 @@
 package com.ai.slp.route.cache.dto;
 
-import com.ai.slp.route.common.config.RedisKeyConfig;
+import com.ai.slp.route.util.CacheKeyUtil;
 import com.ai.slp.route.util.MCSUtil;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
@@ -53,12 +53,12 @@ public class Route {
             ruleBaseInfoMap.put(routeRule.getRuleId(), new Gson().toJson(routeRule.getRuleBaseInfo()));
         }
 
-        MCSUtil.expire(RedisKeyConfig.RK_Route(routeId));
-        MCSUtil.hput(RedisKeyConfig.RK_Route(routeId), ruleBaseInfoMap);
-        logger.debug("Refresh key:{}, Refsh Value:{}", RedisKeyConfig.RK_Route(routeId), ruleBaseInfoMap);
-        MCSUtil.expire(RedisKeyConfig.RK_RouteStatus(routeId));
-        MCSUtil.put(RedisKeyConfig.RK_RouteStatus(routeId), routeStatus.getValue());
-        logger.debug("Refresh key:{}, Refsh Value:{}", RedisKeyConfig.RK_RouteStatus(routeId), routeStatus.getValue());
+        MCSUtil.expire(CacheKeyUtil.RK_Route(routeId));
+        MCSUtil.hput(CacheKeyUtil.RK_Route(routeId), ruleBaseInfoMap);
+        logger.debug("Refresh key:{}, Refsh Value:{}", CacheKeyUtil.RK_Route(routeId), ruleBaseInfoMap);
+        MCSUtil.expire(CacheKeyUtil.RK_RouteStatus(routeId));
+        MCSUtil.put(CacheKeyUtil.RK_RouteStatus(routeId), routeStatus.getValue());
+        logger.debug("Refresh key:{}, Refsh Value:{}", CacheKeyUtil.RK_RouteStatus(routeId), routeStatus.getValue());
     }
 
     public enum RouteStatus {

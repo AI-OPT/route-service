@@ -1,4 +1,4 @@
-package com.ai.slp.route.cache;
+package com.ai.slp.route.service.business.interfaces;
 
 import java.sql.SQLException;
 

@@ -1,4 +1,4 @@
-package com.ai.slp.route.common.entity;
+package com.ai.slp.route.vo;
 
 import java.util.Map;
 
@@ -6,13 +6,13 @@ import java.util.Map;
  * 路由规则类型
  * Created by xin on 16-4-28.
  */
-public enum RuleItem {
+public enum RuleType {
     //金额 订单量
     AMOUNT("amount"), ORDERCOUNT("orderCount");
 
     String fieldName;
 
-    RuleItem(String fieldName) {
+    RuleType(String fieldName) {
         this.fieldName = fieldName;
     }
 
@@ -35,7 +35,7 @@ public enum RuleItem {
         return result;
     }
 
-    public static RuleItem convert(String route_rule_item) {
+    public static RuleType convert(String route_rule_item) {
         char value = route_rule_item.charAt(0);
         switch (value) {
             case 'A':

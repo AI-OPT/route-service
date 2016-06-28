@@ -1,4 +1,4 @@
-package com.ai.slp.route.cache.service.impl;
+package com.ai.slp.route.service.atom.impl;
 
 import com.ai.slp.route.cache.dao.IRouteDao;
 import com.ai.slp.route.cache.dao.IRouteGroupDao;
@@ -7,7 +7,7 @@ import com.ai.slp.route.cache.dto.PriorityRoutesMapping;
 import com.ai.slp.route.cache.dto.Route;
 import com.ai.slp.route.cache.dto.RouteGroup;
 import com.ai.slp.route.cache.dto.RouteRule;
-import com.ai.slp.route.cache.service.IRouteGroupService;
+import com.ai.slp.route.service.atom.interfaces.IRouteGroupService;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -1,11 +1,11 @@
-package com.ai.slp.route.common.config;
+package com.ai.slp.route.util;
 
-import com.ai.slp.route.common.entity.RuleItem;
+import com.ai.slp.route.vo.RuleType;
 
 /**
  * Created by xin on 16-4-28.
  */
-public class RedisKeyConfig {
+public class CacheKeyUtil {
 
     /**
      * Redis key：Route group
@@ -53,7 +53,7 @@ public class RedisKeyConfig {
      * <p/>
      * ruleId-DATA
      */
-    public static String RK_RouteRuleData(String ruleId, RuleItem ruleItem) {
+    public static String RK_RouteRuleData(String ruleId, RuleType ruleItem) {
         return ruleId + "-" + ruleItem + "-DATA";
     }
 

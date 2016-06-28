@@ -1,6 +1,6 @@
 package com.ai.slp.route.core;
 
-import com.ai.slp.route.common.config.RedisKeyConfig;
+import com.ai.slp.route.util.CacheKeyUtil;
 import com.ai.slp.route.util.MCSUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class Route {
     private Logger logger = LogManager.getLogger(Route.class);
-    private List<RouteRule> ruleIds;
+    private List<RouteRule> routeRules;
     private String routeId;
 
     public String getRouteId() {
@@ -28,20 +28,20 @@ public class Route {
 
     public Route(String routeId, Map<String, String> routeRulesMapping) {
         this.routeId = routeId;
-        ruleIds = new ArrayList<RouteRule>();
+        routeRules = new ArrayList<RouteRule>();
         for (Map.Entry<String, String> entry : routeRulesMapping.entrySet()) {
-            ruleIds.add(new RouteRule(entry.getKey(), entry.getValue()));
+            routeRules.add(new RouteRule(entry.getKey(), entry.getValue()));
         }
     }
 
     public static Route load(String routeId) {
-        String routeStatus = MCSUtil.load(RedisKeyConfig.RK_RouteStatus(routeId));
+        String routeStatus = MCSUtil.load(CacheKeyUtil.RK_RouteStatus(routeId));
         // 先判断状态
         if (!"N".equals(routeStatus)) {
             return null;
         }
         //
-        Map<String, String> routeRulesMapping = MCSUtil.hLoads(RedisKeyConfig.RK_Route(routeId));
+        Map<String, String> routeRulesMapping = MCSUtil.hLoads(CacheKeyUtil.RK_Route(routeId));
         return new Route(routeId, routeRulesMapping);
     }
 
@@ -53,8 +53,8 @@ public class Route {
 
         boolean result = false;
 
-        for (RouteRule rule : ruleIds) {
-            String routeRuleStatus = MCSUtil.load(RedisKeyConfig.RK_RouteRuleStatus(rule.getRuleId()));
+        for (RouteRule rule : routeRules) {
+            String routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
             if ("I".equals(routeRuleStatus)) {
                 logger.info("Route RuleId{} status is {}, The Rules have not yet entered into force.",
                         rule.getRuleId(), "I");
@@ -80,12 +80,12 @@ public class Route {
                 break;
             }
 
-            Float testValue = rule.getRuleBaseInfo().getRuleItem().fetchTestValue(dataMap);
+            Float testValue = rule.getRuleBaseInfo().getRuleType().fetchTestValue(dataMap);
             if (!rule.match(testValue)) {
                 result = true;
                 break;
             } else {
-                hasBeenIncrement.put(RedisKeyConfig.RK_RouteRuleData(rule.getRuleId(), rule.getRuleBaseInfo().getRuleItem()), testValue);
+                hasBeenIncrement.put(CacheKeyUtil.RK_RouteRuleData(rule.getRuleId(), rule.getRuleBaseInfo().getRuleType()), testValue);
             }
         }
 

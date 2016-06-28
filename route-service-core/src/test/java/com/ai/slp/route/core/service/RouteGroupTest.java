@@ -1,8 +1,8 @@
 package com.ai.slp.route.core.service;
 
-import com.ai.slp.route.core.IRouteSwitcher;
 import com.ai.slp.route.core.Route;
-import com.ai.slp.route.core.RouteSwitcherImpl;
+import com.ai.slp.route.service.business.impl.RouteSwitcherImpl;
+import com.ai.slp.route.service.business.interfaces.IRouteSwitcher;
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;

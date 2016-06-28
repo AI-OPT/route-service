@@ -4,9 +4,9 @@ import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.slp.route.api.core.interfaces.IRouteCoreService;
 import com.ai.slp.route.api.core.params.SaleProductInfo;
-import com.ai.slp.route.common.entity.RuleItem;
-import com.ai.slp.route.core.IRouteSwitcher;
 import com.ai.slp.route.core.Route;
+import com.ai.slp.route.service.business.interfaces.IRouteSwitcher;
+import com.ai.slp.route.vo.RuleType;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
@@ -36,8 +36,8 @@ public class RouteCoreServiceImpl implements IRouteCoreService {
             }
 
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty(RuleItem.AMOUNT.getFieldName(), saleProductInfo.getTotalConsumption());
-            jsonObject.addProperty(RuleItem.ORDERCOUNT.getFieldName(), 1);
+            jsonObject.addProperty(RuleType.AMOUNT.getFieldName(), saleProductInfo.getTotalConsumption());
+            jsonObject.addProperty(RuleType.ORDERCOUNT.getFieldName(), 1);
             Route route = routeGroup.switchRoute(saleProductInfo.getTenantId(), saleProductInfo.getRouteGroupId(),
                     jsonObject.toString());
             if (route != null) {

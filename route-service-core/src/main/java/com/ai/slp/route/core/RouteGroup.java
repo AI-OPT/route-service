@@ -1,6 +1,6 @@
 package com.ai.slp.route.core;
 
-import com.ai.slp.route.common.config.RedisKeyConfig;
+import com.ai.slp.route.util.CacheKeyUtil;
 import com.ai.slp.route.util.MCSUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,13 +34,13 @@ public class RouteGroup {
      * @return
      */
     public static RouteGroup load(String tenantId, String routeGroupId) {
-        String routeGroupStatus = MCSUtil.load(RedisKeyConfig.RK_RouteGroupStatus(tenantId, routeGroupId));
+        String routeGroupStatus = MCSUtil.load(CacheKeyUtil.RK_RouteGroupStatus(tenantId, routeGroupId));
         if (!"N".equals(routeGroupStatus)) {
             logger.warn("tenantId:{}  routeGroupId:{}  status:{}.", tenantId, routeGroupId, routeGroupStatus);
             return null;
         }
 
-        Map<String, String> priorityRouteMapping = MCSUtil.hLoads(RedisKeyConfig.RK_RouteGroup(tenantId, routeGroupId));
+        Map<String, String> priorityRouteMapping = MCSUtil.hLoads(CacheKeyUtil.RK_RouteGroup(tenantId, routeGroupId));
         return new RouteGroup(priorityRouteMapping);
     }
 
