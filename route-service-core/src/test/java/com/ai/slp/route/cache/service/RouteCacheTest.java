@@ -16,6 +16,9 @@ import com.ai.slp.route.vo.TimeType;
 import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -27,6 +30,8 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by xin on 16-5-3.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:context/core-context.xml")
 public class RouteCacheTest {
 
     private IRouteCache routeCacheA;
@@ -45,6 +50,12 @@ public class RouteCacheTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         assertEquals(ruleBaseInfo.getValidateTime(), new Timestamp(simpleDateFormat.parse("2016-04-27 00:00:00").getTime()));
         assertEquals(ruleBaseInfo.getInvalidateTime(), new Timestamp(simpleDateFormat.parse("2016-05-05 23:59:59").getTime()));
+    }
+
+    @Test
+    public void refreshRouteGroupTest(){
+
+        routeCacheA.refreshRoute("900000001");
     }
 
     @Before

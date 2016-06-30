@@ -17,6 +17,10 @@
     <bean id="dataSource" class="com.ai.opt.sdk.datasource.OptHikariDataSource">
         <constructor-arg name="dataSourceName" value="slp-route-db"/>
     </bean>
+    
+    <bean id="dbUtils" class="com.ai.slp.route.util.DBUtils" init-method="initDataSource">
+        <property name="dataSourceTmp" ref="dataSource"/>
+    </bean>
 
     <bean id="routeGroupSwitcher" class="com.ai.slp.route.service.business.impl.RouteSwitcherImpl"/>
     <bean id="routeDao" class="com.ai.slp.route.cache.dao.impl.RouteDaoImpl"></bean>
@@ -41,8 +45,8 @@
 
     <bean id="routeCache" class="com.ai.slp.route.service.business.impl.RouteCacheImpl">
         <property name="routeService" ref="routeService"></property>
-        <property name="routeGroupService" ref="routeGroupService"/>
-        <property name="routeRuleService" ref="routeRuleService"/>
+        <property name="routeGroupService" ref="routeGroupService"></property>
+        <property name="routeRuleService" ref="routeRuleService"></property>
     </bean>
     
 </beans>

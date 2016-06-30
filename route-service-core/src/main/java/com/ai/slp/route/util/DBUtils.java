@@ -2,8 +2,6 @@ package com.ai.slp.route.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -11,10 +9,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 
-@Component
 public class DBUtils {
 
-    @Autowired
     private DataSource dataSourceTmp;
 
     private static DataSource dataSource;
@@ -36,5 +32,13 @@ public class DBUtils {
             throw new RuntimeException("Cannot get connection.");
         }
 
+    }
+
+    public DataSource getDataSourceTmp() {
+        return dataSourceTmp;
+    }
+
+    public void setDataSourceTmp(DataSource dataSourceTmp) {
+        this.dataSourceTmp = dataSourceTmp;
     }
 }
