@@ -53,9 +53,10 @@ public class RouteCacheTest {
     }
 
     @Test
-    public void refreshRouteGroupTest(){
-
+    public void refreshRouteTest(){
         routeCacheA.refreshRoute("900000001");
+        routeCacheA.refreshRoute("900000002");
+        routeCacheA.refreshRoute("900000003");
     }
 
     @Before
