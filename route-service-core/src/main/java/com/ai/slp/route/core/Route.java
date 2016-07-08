@@ -34,13 +34,18 @@ public class Route {
         }
     }
 
+    /**
+     * 根据路由id从缓存中的获取路由信息
+     * @param routeId
+     * @return
+     */
     public static Route load(String routeId) {
         String routeStatus = MCSUtil.load(CacheKeyUtil.RK_RouteStatus(routeId));
         // 先判断状态
         if (!"N".equals(routeStatus)) {
             return null;
         }
-        //
+        //获取路由规则新
         Map<String, String> routeRulesMapping = MCSUtil.hLoads(CacheKeyUtil.RK_Route(routeId));
         return new Route(routeId, routeRulesMapping);
     }
@@ -54,7 +59,9 @@ public class Route {
         boolean result = false;
 
         for (RouteRule rule : routeRules) {
+            //获取规则状态
             String routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
+
             if ("I".equals(routeRuleStatus)) {
                 logger.info("Route RuleId{} status is {}, The Rules have not yet entered into force.",
                         rule.getRuleId(), "I");

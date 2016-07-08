@@ -28,18 +28,19 @@ public class RouteGroup {
     }
 
     /**
-     * 获取路由信息
+     * 获取路由组信息
      * @param tenantId
      * @param routeGroupId
      * @return
      */
     public static RouteGroup load(String tenantId, String routeGroupId) {
         String routeGroupStatus = MCSUtil.load(CacheKeyUtil.RK_RouteGroupStatus(tenantId, routeGroupId));
+        //若路由组状态为无效
         if (!"N".equals(routeGroupStatus)) {
             logger.warn("tenantId:{}  routeGroupId:{}  status:{}.", tenantId, routeGroupId, routeGroupStatus);
             return null;
         }
-
+        //查询路由组下优先级中路由组成
         Map<String, String> priorityRouteMapping = MCSUtil.hLoads(CacheKeyUtil.RK_RouteGroup(tenantId, routeGroupId));
         return new RouteGroup(priorityRouteMapping);
     }

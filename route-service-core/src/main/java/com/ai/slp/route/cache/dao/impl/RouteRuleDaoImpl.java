@@ -43,7 +43,9 @@ public class RouteRuleDaoImpl implements IRouteRuleDao {
 
     @Override
     public RouteRule queryRouteRuleById(final String ruleId) throws SQLException {
-        final String sql = "SELECT ROUTE_RULE_ID, ROUTE_ID, ROUTE_RULE_TYPE, STATE,ROUTE_RULE_ITEM, MIN_QUANTITY, MAX_QUANTITY, TIME_TYPE, CYCLE_UNIT, CYCLE_VALUE, BEGIN_DATE, END_DATE FROM ROUTE_RULE WHERE ROUTE_RULE_ID = ? AND STATE LIKE ?";
+        final String sql = "SELECT ROUTE_RULE_ID, ROUTE_ID, ROUTE_RULE_TYPE, STATE,ROUTE_RULE_ITEM, " +
+                "MIN_QUANTITY, MAX_QUANTITY, TIME_TYPE, CYCLE_UNIT, CYCLE_VALUE, BEGIN_DATE, END_DATE " +
+                "FROM ROUTE_RULE WHERE ROUTE_RULE_ID = ? AND STATE LIKE ?";
         return DBQueryTemplate.query(new DBQueryTemplate.Executor<RouteRule>() {
             @Override
             public RouteRule query(Connection connection) throws SQLException {

@@ -53,6 +53,7 @@ public class RouteCacheImpl implements IRouteCache {
     @Override
     public boolean refreshRouteGroup(String routeGroupId) throws SQLException {
         try {
+            //查询路由组信息
             RouteGroup routeGroup = routeGroupService.queryRouteGroupById(routeGroupId);
             if (routeGroup != null) {
                 routeGroup.refreshCache();

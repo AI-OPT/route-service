@@ -20,6 +20,7 @@ public class PriorityRoutesMapping {
     }
 
     public Route switchRoute(String dataJson) {
+        //产生一个随机数
         int index = ThreadLocalRandom.current().nextInt(0, routeInRedisKeyArray.length);
         int i = index;
         Route route = null;

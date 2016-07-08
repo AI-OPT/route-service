@@ -33,7 +33,9 @@ public class RouteCoreServiceImpl implements IRouteCoreService {
             }
 
             JsonObject jsonObject = new JsonObject();
+            //金额
             jsonObject.addProperty(RuleType.AMOUNT.getFieldName(), saleProductInfo.getTotalConsumption());
+            //订单量
             jsonObject.addProperty(RuleType.ORDERCOUNT.getFieldName(), 1);
             Route route = routeGroup.switchRoute(tenantId, routeGroupId,jsonObject.toString());
 

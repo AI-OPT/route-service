@@ -40,13 +40,20 @@ public class RouteGroupServiceImpl implements IRouteGroupService {
 
     @Override
     public RouteGroup queryRouteGroupById(String routeGroupId) throws SQLException {
+        //查询路由组
         RouteGroup routeGroup = routeGroupDao.queryNormalRouteGroup(routeGroupId);
+        //查询路由组下路由和路由规则
         List<PriorityRoutesMapping> routesMappings = routeGroupDao.queryPriorityRoutes(routeGroup.getRouteGroupId());
         filledPriorityRoutesMappingObject(routesMappings);
         routeGroup.addPriorityMapping(routesMappings);
         return routeGroup;
     }
 
+    /**
+     * 填充路由规则
+     * @param routesMappings
+     * @throws SQLException
+     */
     private void filledPriorityRoutesMappingObject(List<PriorityRoutesMapping> routesMappings) throws SQLException {
         for (PriorityRoutesMapping mapping : routesMappings) {
             for (Route route : mapping.getRouteList()) {

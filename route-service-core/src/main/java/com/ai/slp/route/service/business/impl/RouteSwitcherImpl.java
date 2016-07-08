@@ -25,6 +25,7 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
 
     private Route switchRoute(RouteGroup routeGroup, String dataJson) {
         Route route = null;
+        //获取路由组中优先级对应路由,逐级检查是否符合条件
         for (PriorityRoutesMapping priorityRoutesMapping : routeGroup.getPriorityRouteMapping()) {
             route = priorityRoutesMapping.switchRoute(dataJson);
             if (route != null) {

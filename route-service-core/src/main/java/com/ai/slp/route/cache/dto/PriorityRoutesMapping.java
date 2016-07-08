@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 路由组的优先级和路由对应信息
  * Created by xin on 16-4-29.
  */
 public class PriorityRoutesMapping {
-    private String RouteItemId;
     private String priorityNumber;
-
     private List<Route> routeList;
 
-    public PriorityRoutesMapping(String routeItemId, String priorityNumber) {
-        RouteItemId = routeItemId;
+    public PriorityRoutesMapping(String priorityNumber) {
         this.priorityNumber = priorityNumber;
         this.routeList = new ArrayList<Route>();
     }
@@ -42,7 +40,7 @@ public class PriorityRoutesMapping {
     }
 
     public String getPriorityNumber() {
-        return priorityNumber;
+        return this.priorityNumber;
     }
 
     public String appendAllRouteIds() {

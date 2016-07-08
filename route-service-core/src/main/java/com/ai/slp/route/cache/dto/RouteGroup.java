@@ -42,24 +42,28 @@ public class RouteGroup {
     }
 
     public void refreshCache() {
-        String routeGroupRedisKey = CacheKeyUtil.RK_RouteGroup(tenantId, routeGroupId);
         // 优先级和路由组ID
         Map<String, String> priorityRouteMapping = new HashMap<String, String>();
         for (PriorityRoutesMapping mapping : priorityRoutesMappings) {
+            //获取优先级对应路由标识集合
             priorityRouteMapping.put(mapping.getPriorityNumber(), mapping.appendAllRouteIds());
+            //进行路由相关信息刷新
             mapping.refreshAllRoutesCache();
         }
-
+        //A
+        String routeGroupRedisKey = CacheKeyUtil.RK_RouteGroup(tenantId, routeGroupId);
         logger.debug("Refresh key : {}, refresh Value: {}", routeGroupRedisKey, priorityRouteMapping);
         //设置缓存key失效
         MCSUtil.expire(routeGroupRedisKey);
         //路由组优先级对应路由标识
         MCSUtil.hput(routeGroupRedisKey, priorityRouteMapping);
+
+        //B
+        String routeGroupStatusKey = CacheKeyUtil.RK_RouteGroupStatus(tenantId, routeGroupId);
         //设置缓存key失效
-        MCSUtil.expire(CacheKeyUtil.RK_RouteGroupStatus(tenantId, routeGroupId));
+        MCSUtil.expire(routeGroupStatusKey);
         //路由组状态
-        MCSUtil.put(CacheKeyUtil.RK_RouteGroupStatus(tenantId, routeGroupId),
-                groupStatus.getValue());
+        MCSUtil.put(routeGroupStatusKey,groupStatus.getValue());
     }
 
     public enum RouteGroupStatus {

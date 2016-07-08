@@ -35,12 +35,14 @@ public class RouteRule {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-        RouteRule routeRule = (RouteRule) o;
+        String oRuleId = ((RouteRule) o).getRouteId();
 
-        return ruleId != null ? ruleId.equals(routeRule.ruleId) : routeRule.ruleId == null;
+        return ruleId != null ? ruleId.equals(oRuleId) : oRuleId == null;
 
     }
 
@@ -58,43 +60,45 @@ public class RouteRule {
     }
 
     public void refreshCache() {
+        String routeRuleKey = CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType());
+        //规则量设置为零
+        String previousValue = MCSUtil.load(routeRuleKey);
+        MCSUtil.expire(routeRuleKey);
+        MCSUtil.put(routeRuleKey, "0", ruleBaseInfo.getInvalidateTime().getTime() / 1000);
+        String currentValue = MCSUtil.load(routeRuleKey);
+        logger.info("Change RK:{} value:{} to {} ", routeRuleKey,previousValue, currentValue);
 
-        String previousvalue = MCSUtil.load(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()));
-        MCSUtil.expire(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()));
-        MCSUtil.put(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()), "0", ruleBaseInfo.getInvalidateTime().getTime() / 1000);
-        String currentvalue = MCSUtil.load(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()));
-
-        logger.info("Change RK:{} value:{} to {} ", CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()),
-                previousvalue, currentvalue);
-
-        previousvalue = MCSUtil.load(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()));
+        //规则状态
+        previousValue = MCSUtil.load(routeRuleKey);
         MCSUtil.expire(CacheKeyUtil.RK_RouteRuleStatus(ruleId));
         MCSUtil.put(CacheKeyUtil.RK_RouteRuleStatus(ruleId), ruleStatus.getValue());
-        currentvalue = MCSUtil.load(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleType()));
-
+        currentValue = MCSUtil.load(routeRuleKey);
         logger.info("Change RK:{} value:{} to {} ", CacheKeyUtil.RK_RouteRuleStatus(ruleId),
-                previousvalue, currentvalue);
+                previousValue, currentValue);
 
-
-        //
         boolean result = true;
+        //查询当前路由下所有的规则标识
         Set<String> ruleIds = MCSUtil.hLoads(CacheKeyUtil.RK_Route(routeId)).keySet();
         for (String ruleId : ruleIds) {
             if (ruleId.equals(this.ruleId)) {
                 continue;
             }
+            //存在无效状态
             String ruleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(ruleId));
             if (!"N".equals(ruleStatus)) {
                 result = false;
                 break;
             }
         }
-
+        //若所有规则均有效,则设置路由状态为有效
         if (result) {
             MCSUtil.put(CacheKeyUtil.RK_RouteStatus(routeId), Route.RouteStatus.VALIDATE.getValue());
         }
     }
 
+    /**
+     * 规则状态
+     */
     public enum RuleStatus {
         VALIDATE("N"), INVALIDATE("U"), INEFFECTIVE("I");
 
