@@ -3,6 +3,7 @@ package com.ai.slp.route.dubbo.impl;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.slp.route.api.core.interfaces.IRouteCoreService;
 import com.ai.slp.route.api.core.params.SaleProductInfo;
+import com.ai.slp.route.vo.RouteRule;
 import org.junit.Test;
 
 /**
@@ -17,5 +18,11 @@ public class TestSupplierRouteService {
         saleProductInfo.setTotalConsumption(9980);
         System.out.println(DubboConsumerFactory.getService(IRouteCoreService.class)
                 .findRoute(saleProductInfo));
+    }
+
+    @Test
+    public void demoRuleState(){
+        System.out.println(RouteRule.RuleStatus.INVALIDATE.name());
+        System.out.println(RouteRule.RuleStatus.INVALIDATE.getValue());
     }
 }

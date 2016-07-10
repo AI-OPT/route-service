@@ -1,16 +1,16 @@
-package com.ai.slp.route.cache.dto;
+package com.ai.slp.route.vo;
 
 import com.ai.slp.route.util.CacheKeyUtil;
 import com.ai.slp.route.util.MCSUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class RouteGroup {
-    private Logger logger = LogManager.getLogger(RouteGroup.class);
+    private Logger logger = LoggerFactory.getLogger(RouteGroup.class);
     //
     private String tenantId;
     private String routeGroupName;
@@ -67,7 +67,7 @@ public class RouteGroup {
     }
 
     public enum RouteGroupStatus {
-        VALIDATE("N"), INVALIDATE("U");
+        VALIDATE("2"), INVALIDATE("21");
 
         private final String value;
 

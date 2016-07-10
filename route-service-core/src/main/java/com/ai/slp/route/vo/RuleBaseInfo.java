@@ -12,24 +12,30 @@ import java.util.Calendar;
  * Created by xin on 16-4-28.
  */
 public class RuleBaseInfo implements Serializable {
+    //时段类型
     private TimeType timeType;
-    private RuleType ruleType;
+    //规则项类型
+    private RuleItem ruleItem;
+    //周期单位
     private CycleUnit cycleUnit;
+    //生效时间
     private Timestamp validateTime;
     private int cycleValue;
+    //最小阀值
     private float minQuantity;
+    //最大阀值
     private float maxQuantity;
+    //失效时间
     private Timestamp invalidateTime;
 
 
     public RuleBaseInfo(ResultSet resultSet) throws SQLException {
-        ruleType = RuleType.convert(resultSet.getString("ROUTE_RULE_ITEM"));
+        ruleItem = RuleItem.convert(resultSet.getString("ROUTE_RULE_ITEM"));
         timeType = TimeType.convert(resultSet.getString("TIME_TYPE"));
         validateTime = resultSet.getTimestamp("BEGIN_DATE");
         if (timeType == TimeType.CYCLE) {
             cycleUnit = CycleUnit.convert(resultSet.getString("CYCLE_UNIT"));
             cycleValue = resultSet.getInt("CYCLE_VALUE");
-
             invalidateTime = generateNextInvalidateTime();
         } else if (timeType == TimeType.SELF_DEFINED) {
             invalidateTime = resultSet.getTimestamp("END_DATE");
@@ -67,8 +73,8 @@ public class RuleBaseInfo implements Serializable {
         return maxQuantity;
     }
 
-    public RuleType getRuleType() {
-        return ruleType;
+    public RuleItem getRuleItem() {
+        return ruleItem;
     }
 
     public CycleUnit getCycleUnit() {

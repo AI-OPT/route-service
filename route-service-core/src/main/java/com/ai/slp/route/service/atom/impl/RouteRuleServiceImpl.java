@@ -1,8 +1,8 @@
 package com.ai.slp.route.service.atom.impl;
 
-import com.ai.slp.route.cache.dao.IRouteRuleDao;
-import com.ai.slp.route.cache.dto.RouteRule;
+import com.ai.slp.route.dao.IRouteRuleDao;
 import com.ai.slp.route.service.atom.interfaces.IRouteRuleService;
+import com.ai.slp.route.vo.RouteRule;
 
 import java.sql.SQLException;
 

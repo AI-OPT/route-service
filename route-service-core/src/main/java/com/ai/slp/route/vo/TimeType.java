@@ -5,8 +5,9 @@ package com.ai.slp.route.vo;
  * Created by xin on 16-4-27.
  */
 public enum TimeType {
-    //自定义 周期性
+    //周期性,自定义
     CYCLE, SELF_DEFINED;
+
 
     public static TimeType convert(String time_type) {
         char value = time_type.charAt(0);

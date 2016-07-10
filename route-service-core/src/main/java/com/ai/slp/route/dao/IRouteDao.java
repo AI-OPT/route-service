@@ -1,6 +1,6 @@
-package com.ai.slp.route.cache.dao;
+package com.ai.slp.route.dao;
 
-import com.ai.slp.route.cache.dto.Route;
+import com.ai.slp.route.vo.Route;
 
 import java.sql.SQLException;
 

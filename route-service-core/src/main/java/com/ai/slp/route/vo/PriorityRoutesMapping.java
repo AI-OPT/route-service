@@ -1,4 +1,7 @@
-package com.ai.slp.route.cache.dto;
+package com.ai.slp.route.vo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.List;
  * Created by xin on 16-4-29.
  */
 public class PriorityRoutesMapping {
+    private Logger logger = LoggerFactory.getLogger(PriorityRoutesMapping.class);
     private String priorityNumber;
     private List<Route> routeList;
 
@@ -27,7 +31,6 @@ public class PriorityRoutesMapping {
         if (o == null || getClass() != o.getClass()) return false;
         PriorityRoutesMapping mapping = (PriorityRoutesMapping) o;
         return priorityNumber.equals(mapping.priorityNumber);
-
     }
 
     @Override

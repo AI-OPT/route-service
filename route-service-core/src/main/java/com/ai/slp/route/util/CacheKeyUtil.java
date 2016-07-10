@@ -1,6 +1,6 @@
 package com.ai.slp.route.util;
 
-import com.ai.slp.route.vo.RuleType;
+import com.ai.slp.route.vo.RuleItem;
 
 /**
  * Created by xin on 16-4-28.
@@ -53,7 +53,7 @@ public class CacheKeyUtil {
      * <p/>
      * ruleId-DATA
      */
-    public static String RK_RouteRuleData(String ruleId, RuleType ruleItem) {
+    public static String RK_RouteRuleData(String ruleId, RuleItem ruleItem) {
         return ruleId + "-" + ruleItem + "-DATA";
     }
 

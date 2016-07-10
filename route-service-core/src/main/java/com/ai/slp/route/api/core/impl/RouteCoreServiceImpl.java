@@ -4,9 +4,9 @@ import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.slp.route.api.core.interfaces.IRouteCoreService;
 import com.ai.slp.route.api.core.params.SaleProductInfo;
-import com.ai.slp.route.core.Route;
 import com.ai.slp.route.service.business.interfaces.IRouteSwitcher;
-import com.ai.slp.route.vo.RuleType;
+import com.ai.slp.route.vo.Route;
+import com.ai.slp.route.vo.RuleItem;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
@@ -34,9 +34,9 @@ public class RouteCoreServiceImpl implements IRouteCoreService {
 
             JsonObject jsonObject = new JsonObject();
             //金额
-            jsonObject.addProperty(RuleType.AMOUNT.getFieldName(), saleProductInfo.getTotalConsumption());
+            jsonObject.addProperty(RuleItem.AMOUNT.getFieldName(), saleProductInfo.getTotalConsumption());
             //订单量
-            jsonObject.addProperty(RuleType.ORDERCOUNT.getFieldName(), 1);
+            jsonObject.addProperty(RuleItem.ORDERCOUNT.getFieldName(), 1);
             Route route = routeGroup.switchRoute(tenantId, routeGroupId,jsonObject.toString());
 
             return route == null?null:route.getRouteId();

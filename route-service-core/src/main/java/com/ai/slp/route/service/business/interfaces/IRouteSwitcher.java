@@ -1,6 +1,7 @@
 package com.ai.slp.route.service.business.interfaces;
 
-import com.ai.slp.route.core.Route;
+
+import com.ai.slp.route.vo.Route;
 
 /**
  * Created by xin on 16-4-27.
