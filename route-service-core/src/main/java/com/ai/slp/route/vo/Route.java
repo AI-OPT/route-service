@@ -24,17 +24,17 @@ public class Route {
 
     public Route(String routeId, String state) {
         this.routeId = routeId;
-        routeStatus = RouteStatus.convert(state);
-        routeRules = new ArrayList<RouteRule>();
+        this.routeStatus = RouteStatus.convert(state);
+        this.routeRules = new ArrayList<RouteRule>();
     }
 
     public Route(String routeId,String state, Map<String, String> routeRulesMapping) {
-        this.routeId = routeId;
-        this.routeRules = new ArrayList<RouteRule>();
-        this.routeStatus = RouteStatus.convert(state);
+        this(routeId,state);
         //加载路由规则
         for (Map.Entry<String, String> entry : routeRulesMapping.entrySet()) {
+            //获取路由规则状态
             String routeStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(entry.getKey()));
+            //路由中添加路由规则
             this.routeRules.add(new RouteRule(routeId,entry.getKey(),routeStatus, entry.getValue()));
         }
     }
@@ -47,8 +47,13 @@ public class Route {
         this.routeRules.addAll(routeRules);
     }
 
+    /**
+     * 刷新路由相关缓存
+     */
     public void refreshCache() {
+        //刷新路由规则缓存
         refreshRouteRuleData();
+        //刷新路由缓存
         refreshRouteData();
     }
 
@@ -65,6 +70,7 @@ public class Route {
      * 刷新路由数据
      */
     public void refreshRouteData() {
+        //设置路由下规则
         Map<String, String> ruleBaseInfoMap = new HashMap<String, String>();
         for (RouteRule routeRule : routeRules) {
             ruleBaseInfoMap.put(routeRule.getRuleId(), new Gson().toJson(routeRule.getRuleBaseInfo()));
@@ -74,6 +80,7 @@ public class Route {
         MCSUtil.hput(routeDataKey, ruleBaseInfoMap);
         logger.debug("Refresh key:{}, Refsh Value:{}", routeDataKey, ruleBaseInfoMap);
 
+        //设置路由状态
         String routeStatusKey = CacheKeyUtil.RK_RouteStatus(routeId);
         MCSUtil.expire(routeStatusKey);
         MCSUtil.put(routeStatusKey, routeStatus.getValue());
@@ -88,37 +95,45 @@ public class Route {
     public static Route load(String routeId) {
         //获取路由状态
         String routeStatus = MCSUtil.load(CacheKeyUtil.RK_RouteStatus(routeId));
-        // 先判断状态
+        // 如果路由不是有效状态,则返回null
         if (!RouteStatus.VALIDATE.getValue().equals(routeStatus)) {
             return null;
         }
-        //获取路由规则新
+        //获取路由规则信息
         Map<String, String> routeRulesMapping = MCSUtil.hLoads(CacheKeyUtil.RK_Route(routeId));
+        //返回路由
         return new Route(routeId,routeStatus, routeRulesMapping);
     }
 
+    /**
+     * 判断路由是否符合使用条件
+     * @param dataJson
+     * @return
+     */
     public boolean isOutOfRules(String dataJson) {
         Map<String, Float> hasBeenIncrement = new HashMap<String, Float>();
         Map<String, Float> dataMap = new Gson().fromJson(dataJson,
                 new TypeToken<Map<String, Float>>() {}.getType());
 
         boolean result = false;
-
+        //进行规制判断
         for (RouteRule rule : routeRules) {
             //获取规则状态
             String routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
-
+            //若规则为待生效,则检查是否可以生效
             if (RouteRule.RuleStatus.INEFFECTIVE.getValue().equals(routeRuleStatus)) {
                 logger.info("Route RuleId{} status is {}, The Rules have not yet entered into force.",
                         rule.getRuleId(),routeRuleStatus);
-                // 校验是否开始生效
+                // 未到生效时间,则查询下一个规则
                 if (rule.getRuleBaseInfo().getValidateTime().after(DateUtil.getSysDate())) {
                     continue;
-                } else {
+                }//可以生效,则进行状态变更
+                else {
                     //重置状态
                     rule.reloadData();
                 }
-            } else if (RouteRule.RuleStatus.INVALIDATE.getValue().equals(routeRuleStatus)) {
+            } //若规则无效,表示当前路由无效
+            else if (RouteRule.RuleStatus.INVALIDATE.getValue().equals(routeRuleStatus)) {
                 logger.info("Route RuleId{} status is {}, This route cannot be match.",
                         rule.getRuleId(), routeRuleStatus);
                 result = true;
@@ -133,14 +148,17 @@ public class Route {
                 result = true;
                 break;
             }
-
+            //获得对应消耗量
             Float testValue = rule.getRuleBaseInfo().getRuleItem().fetchTestValue(dataMap);
+            //如果有一条规则无效,则路由也是无效
             if (!rule.match(testValue)) {
                 result = true;
                 break;
-            } else {
-                hasBeenIncrement.put(CacheKeyUtil.RK_RouteRuleData(rule.getRuleId(),
-                        rule.getRuleBaseInfo().getRuleItem()), testValue);
+            }//添加路由使用量
+            else {
+                hasBeenIncrement.put(
+                        CacheKeyUtil.RK_RouteRuleData(rule.getRuleId(),rule.getRuleBaseInfo().getRuleItem()),
+                        testValue);
             }
         }
 

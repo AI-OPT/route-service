@@ -20,6 +20,7 @@ public class RuleBaseInfo implements Serializable {
     private CycleUnit cycleUnit;
     //生效时间
     private Timestamp validateTime;
+    //周期值
     private int cycleValue;
     //最小阀值
     private float minQuantity;
@@ -44,6 +45,10 @@ public class RuleBaseInfo implements Serializable {
         maxQuantity = resultSet.getFloat("MAX_QUANTITY");
     }
 
+    /**
+     * 获得下次失效时间
+     * @return
+     */
     public Timestamp generateNextInvalidateTime() {
         Timestamp startDate = validateTime;
         Timestamp nextInvalidateTime = startDate;

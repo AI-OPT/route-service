@@ -26,7 +26,7 @@ public class RouteRule {
         this.routeId = routeId;
         this.ruleId = ruleId;
         this.ruleBaseInfo = ruleBaseInfo;
-        // 还需要校验时间，如果起始时间在现在时间之后，则是未生效状态
+        // 若未到生效时间,则设置待生效
         if (this.ruleBaseInfo.getValidateTime().after(DateUtil.getSysDate())) {
             this.ruleStatus = RuleStatus.INEFFECTIVE;
         } else {
@@ -64,22 +64,26 @@ public class RouteRule {
         return ruleId;
     }
 
+    /**
+     * 刷新路由规则缓存
+     */
     public void refreshCache() {
+        //规则下已使用量
         String routeRuleKey = CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem());
-        //规则量设置为零
         String previousValue = MCSUtil.load(routeRuleKey);
         MCSUtil.expire(routeRuleKey);
+        //规则量设置为零,设置规则量的有效期
         MCSUtil.put(routeRuleKey, "0", ruleBaseInfo.getInvalidateTime().getTime() / 1000);
         String currentValue = MCSUtil.load(routeRuleKey);
         logger.info("Change RK:{} value:{} to {} ", routeRuleKey,previousValue, currentValue);
 
         //规则状态
-        String routeStatusKey = CacheKeyUtil.RK_RouteRuleStatus(ruleId);
-        previousValue = MCSUtil.load(routeStatusKey);
-        MCSUtil.expire(routeStatusKey);
-        MCSUtil.put(routeStatusKey, ruleStatus.getValue());
+        String ruleStatusKey = CacheKeyUtil.RK_RouteRuleStatus(ruleId);
+        previousValue = MCSUtil.load(ruleStatusKey);
+        MCSUtil.expire(ruleStatusKey);
+        MCSUtil.put(ruleStatusKey, ruleStatus.getValue());
         currentValue = MCSUtil.load(routeRuleKey);
-        logger.info("Change RK:{} value:{} to {} ", routeStatusKey,previousValue, currentValue);
+        logger.info("Change RK:{} value:{} to {} ", ruleStatusKey,previousValue, currentValue);
 
         boolean result = true;
         //查询当前路由下所有的规则标识
@@ -89,7 +93,7 @@ public class RouteRule {
                 continue;
             }
             //存在无效状态
-            String ruleStatus = MCSUtil.load(routeStatusKey);
+            String ruleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(ruleId));
             if (!RuleStatus.VALIDATE.getValue().equals(ruleStatus)) {
                 result = false;
                 break;
@@ -106,14 +110,15 @@ public class RouteRule {
         String routeRuleData = MCSUtil.load(CacheKeyUtil.RK_RouteRuleData(routeRuleId, ruleBaseInfo.getRuleItem()));
         //如果路由规则信息为空
         if (routeRuleData == null) {
-            // 如果规则类型是自定义
+            // 如果规则类型是自定义,则设置当前规则失效
             if (ruleBaseInfo.getTimeType() == TimeType.SELF_DEFINED) {
                 // 则将当前这个规则设置为失效了
                 logger.warn("RouteRuleId[{}] has been invalidate. change status to [{}]",
                         routeRuleId, RuleStatus.INVALIDATE.name());
                 MCSUtil.put(CacheKeyUtil.RK_RouteRuleStatus(routeRuleId), RuleStatus.INVALIDATE.getValue());
                 return false;
-            } else {
+            } //规则类型为周期性,则重新加载规则信息
+            else {
                 logger.info("RouteRuleId[{}] has been invalidate, will reload data", routeRuleId);
                 //根据基础信息重新生成
                 reloadData();
@@ -126,15 +131,24 @@ public class RouteRule {
         return true;
     }
 
+    /**
+     * 进行规则消耗量匹配
+     * @param value
+     * @return
+     */
     public boolean match(float value) {
         boolean result = true;
+        //添加消耗量
         double resultValue = MCSUtil.atomIncrement(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), value);
+        //如果规则没有最小限制
         if (ruleBaseInfo.getMinQuantity() == -1) {
+            //如果大于消耗量,则进行消耗量回退,并返回规则不匹配
             if (resultValue > ruleBaseInfo.getMaxQuantity()) {
                 result = false;
                 // 更新值
                 MCSUtil.atomDecrement(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), value);
-            } else if (resultValue == ruleBaseInfo.getMaxQuantity()) {
+            }//若等于最大量,则将规则状态重新设置
+            else if (resultValue == ruleBaseInfo.getMaxQuantity()) {
                 //更新status
                 logger.info("{} = {} Update RK[{}] status to {}", resultValue,
                         ruleBaseInfo.getMaxQuantity(), CacheKeyUtil.RK_RouteRuleStatus(ruleId), RuleStatus.INVALIDATE.name());
@@ -144,7 +158,8 @@ public class RouteRule {
             if (resultValue > ruleBaseInfo.getMaxQuantity()) {
                 MCSUtil.atomDecrement(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), value);
                 result = false;
-            } else if (resultValue <= ruleBaseInfo.getMaxQuantity() && resultValue >= ruleBaseInfo.getMinQuantity()) {
+            }//使用量大于最小值,小于最大值,则重新设置状态
+            else if (resultValue <= ruleBaseInfo.getMaxQuantity() && resultValue >= ruleBaseInfo.getMinQuantity()) {
                 //更新status
                 logger.info("{} in [{},{}] Update RK[{}] status to {}", resultValue, ruleBaseInfo.getMinQuantity(),
                         ruleBaseInfo.getMaxQuantity(),
@@ -162,8 +177,13 @@ public class RouteRule {
         return result;
     }
 
+    /**
+     * 重新设置路由规则状态
+     */
     private void setRouteRuleStatus() {
+        //判断时段类型是否为周期性
         boolean isReloading = ruleBaseInfo.getTimeType() == TimeType.CYCLE;
+        //若时段类型为周期性,则设置为重新更新状态,否则为失效状态
         MCSUtil.put(CacheKeyUtil.RK_RouteRuleStatus(ruleId),
                 isReloading?RuleStatus.RELOADING.getValue():RuleStatus.INVALIDATE.getValue());
     }
@@ -172,13 +192,14 @@ public class RouteRule {
         if (ruleBaseInfo == null)
             return;
         Timestamp nextInvalidateTime = ruleBaseInfo.getInvalidateTime();
+        //若时段类型为周期性
         if (ruleBaseInfo.getTimeType() == TimeType.CYCLE) {
             nextInvalidateTime = ruleBaseInfo.generateNextInvalidateTime();
         }
         //在当前时间之后
         if (nextInvalidateTime.after(DateUtil.getSysDate())) {
             String routeStatus = CacheKeyUtil.RK_RouteRuleStatus(ruleId);
-            //直接更新值，当前值失效，然后只为0，置为失效时间
+            //直接更新值，当前值失效，
             MCSUtil.expire(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
             logger.info("Reload rule date, RK[{}] next Invalidate time {}", routeStatus, nextInvalidateTime);
             MCSUtil.putnx(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", nextInvalidateTime.getTime() / 1000);
@@ -191,7 +212,11 @@ public class RouteRule {
      * 规则状态
      */
     public enum RuleStatus {
-        VALIDATE("1"), INVALIDATE("0"), INEFFECTIVE("-1"),RELOADING("-2");
+
+        VALIDATE("1"),//有效
+        INVALIDATE("0"),//无效
+        INEFFECTIVE("-1"),//未到生效时间,待生效
+        RELOADING("-2");//重新加载
 
         private String value;
 

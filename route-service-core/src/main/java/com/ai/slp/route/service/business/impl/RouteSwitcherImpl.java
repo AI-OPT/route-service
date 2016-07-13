@@ -17,6 +17,13 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
 
     private Logger logger = LoggerFactory.getLogger(RouteSwitcherImpl.class);
 
+    /**
+     * 进行路由选择
+     * @param tenantId
+     * @param groupId
+     * @param dataJson
+     * @return
+     */
     @Override
     public Route switchRoute(String tenantId, String groupId, String dataJson) {
         Route route = null;
@@ -94,6 +101,7 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
         Route route = null;
         while (true) {
             String routeRedisIds = routeInRedisKeyArray.get(i);
+            //加载路由信息
             route = Route.load(routeRedisIds);
             //如果等于空
             if (route == null) {
@@ -109,7 +117,7 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
             if (logger.isDebugEnabled()) {
                 logger.debug("choose RoutId:{} to test Data", route.getRouteId());
             }
-            //
+            //判断路由是否符合使用条件
             if (!route.isOutOfRules(dataJson)) {
                 break;
             }

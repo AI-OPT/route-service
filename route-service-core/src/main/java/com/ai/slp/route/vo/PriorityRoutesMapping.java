@@ -46,6 +46,10 @@ public class PriorityRoutesMapping {
         return this.priorityNumber;
     }
 
+    /**
+     * 获取路由id的字符串,以逗号(,)进行分隔
+     * @return
+     */
     public String appendAllRouteIds() {
         StringBuilder routedIds = new StringBuilder();
         for (Route route : routeList) {

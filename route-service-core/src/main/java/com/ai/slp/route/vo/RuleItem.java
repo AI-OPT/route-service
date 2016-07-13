@@ -7,8 +7,9 @@ import java.util.Map;
  * Created by xin on 16-4-28.
  */
 public enum RuleItem {
-    //金额 订单量
-    AMOUNT("amount"), ORDERCOUNT("orderCount");
+    //金额
+    AMOUNT("amount"),
+    ORDERCOUNT("orderCount");// 订单量
 
     String fieldName;
 
