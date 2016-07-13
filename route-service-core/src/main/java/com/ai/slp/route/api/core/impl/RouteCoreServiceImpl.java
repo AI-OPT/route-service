@@ -21,7 +21,7 @@ public class RouteCoreServiceImpl implements IRouteCoreService {
     private Logger logger = LogManager.getLogger(RouteCoreServiceImpl.class);
 
     @Autowired
-    private IRouteSwitcher routeGroup;
+    private IRouteSwitcher routeSwitcher;
 
     @Override
     public String findRoute(SaleProductInfo saleProductInfo) throws SystemException {
@@ -37,7 +37,7 @@ public class RouteCoreServiceImpl implements IRouteCoreService {
             jsonObject.addProperty(RuleItem.AMOUNT.getFieldName(), saleProductInfo.getTotalConsumption());
             //订单量
             jsonObject.addProperty(RuleItem.ORDERCOUNT.getFieldName(), 1);
-            Route route = routeGroup.switchRoute(tenantId, routeGroupId,jsonObject.toString());
+            Route route = routeSwitcher.switchRoute(tenantId, routeGroupId,jsonObject.toString());
 
             return route == null?null:route.getRouteId();
         } catch (Exception e) {

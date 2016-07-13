@@ -35,9 +35,7 @@ public class RouteRule {
     }
 
     public RouteRule(String routeId, String ruleId, String state,String baseInfo){
-        this.ruleId = ruleId;
-        this.routeId = routeId;
-        this.ruleBaseInfo = new Gson().fromJson(baseInfo, RuleBaseInfo.class);
+        this(routeId,ruleId,state,new Gson().fromJson(baseInfo, RuleBaseInfo.class));
     }
 
     @Override

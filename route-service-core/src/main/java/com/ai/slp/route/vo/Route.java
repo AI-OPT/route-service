@@ -32,8 +32,9 @@ public class Route {
         this.routeId = routeId;
         this.routeRules = new ArrayList<RouteRule>();
         this.routeStatus = RouteStatus.convert(state);
+        //加载路由规则
         for (Map.Entry<String, String> entry : routeRulesMapping.entrySet()) {
-            String routeStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(this.routeId));
+            String routeStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(entry.getKey()));
             this.routeRules.add(new RouteRule(routeId,entry.getKey(),routeStatus, entry.getValue()));
         }
     }
@@ -93,8 +94,7 @@ public class Route {
         }
         //获取路由规则新
         Map<String, String> routeRulesMapping = MCSUtil.hLoads(CacheKeyUtil.RK_Route(routeId));
-        String state = MCSUtil.load(CacheKeyUtil.RK_RouteStatus(routeId));
-        return new Route(routeId,state, routeRulesMapping);
+        return new Route(routeId,routeStatus, routeRulesMapping);
     }
 
     public boolean isOutOfRules(String dataJson) {

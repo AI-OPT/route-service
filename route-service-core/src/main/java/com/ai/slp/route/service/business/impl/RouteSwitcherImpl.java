@@ -21,7 +21,7 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
     public Route switchRoute(String tenantId, String groupId, String dataJson) {
         Route route = null;
         Map<String,List<String>> priorityRoutesMap = loadPriorityRoutesOfGroup(tenantId,groupId);
-        if (!priorityRoutesMap.isEmpty()) {
+        if (priorityRoutesMap!=null && !priorityRoutesMap.isEmpty()) {
             route = switchRoute(priorityRoutesMap, dataJson);
         }else
             logger.error("Failed to find the route group, tenantId:{}, groupId:{}", tenantId, groupId);
@@ -109,7 +109,7 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
             if (logger.isDebugEnabled()) {
                 logger.debug("choose RoutId:{} to test Data", route.getRouteId());
             }
-
+            //
             if (!route.isOutOfRules(dataJson)) {
                 break;
             }
