@@ -1,18 +1,13 @@
 package com.ai.slp.route.cache.service;
 
-import com.ai.slp.route.dao.impl.RouteDaoImpl;
-import com.ai.slp.route.dao.impl.RouteGroupDaoImpl;
-import com.ai.slp.route.dao.impl.RouteRuleDaoImpl;
-import com.ai.slp.route.service.atom.impl.RouteGroupDBServiceImpl;
-import com.ai.slp.route.service.business.impl.RouteCacheImpl;
 import com.ai.slp.route.service.business.interfaces.IRouteCache;
 import com.ai.slp.route.util.CacheKeyUtil;
 import com.ai.slp.route.util.MCSUtil;
 import com.ai.slp.route.vo.*;
 import com.google.gson.Gson;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -29,9 +24,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:context/core-context.xml")
 public class RouteCacheTest {
-
+    @Autowired
     private IRouteCache routeCacheA;
-
     @Test
     public void testRefreshAllCache() throws SQLException, ParseException {
         routeCacheA.refreshAllCache("SLP-001");
@@ -55,17 +49,6 @@ public class RouteCacheTest {
         routeCacheA.refreshRoute("900000003");
     }
 
-    @Before
-    public void initialBean() {
-        RouteGroupDBServiceImpl routeGroupService = new RouteGroupDBServiceImpl();
-        routeGroupService.setRouteDao(new RouteDaoImpl());
-        routeGroupService.setRouteGroupDao(new RouteGroupDaoImpl());
-        routeGroupService.setRouteRuleDao(new RouteRuleDaoImpl());
-
-        RouteCacheImpl routeCache = new RouteCacheImpl();
-        routeCache.setRouteGroupService(routeGroupService);
-        routeCacheA = routeCache;
-    }
 
     @Test
     public void testGson() {

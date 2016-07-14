@@ -191,8 +191,9 @@ public class RouteRule {
     public void reloadData() {
         if (ruleBaseInfo == null)
             return;
+        //获得当前失效时间
         Timestamp nextInvalidateTime = ruleBaseInfo.getInvalidateTime();
-        //若时段类型为周期性
+        //若时段类型为周期性,查询下次失效时间
         if (ruleBaseInfo.getTimeType() == TimeType.CYCLE) {
             nextInvalidateTime = ruleBaseInfo.generateNextInvalidateTime();
         }

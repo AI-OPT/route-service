@@ -2,7 +2,6 @@ package com.ai.slp.route.core.service;
 
 import com.ai.slp.route.api.core.interfaces.IRouteCoreService;
 import com.ai.slp.route.api.core.params.SaleProductInfo;
-import com.ai.slp.route.core.Route;
 import com.ai.slp.route.service.business.impl.RouteSwitcherImpl;
 import com.ai.slp.route.service.business.interfaces.IRouteSwitcher;
 import org.junit.Test;
@@ -54,8 +53,8 @@ public class RouteGroupTest {
         @Override
         public void run() {
             IRouteSwitcher iRouteSwitcher = new RouteSwitcherImpl();
-            Route route = iRouteSwitcher.switchRoute("SLP-001", "RT-GROUP-001", "{\"amount\":20, \"orderCount\":1}");
-            System.out.println(Thread.currentThread().getName() + ":" + route.getRouteId());
+//            Route route = iRouteSwitcher.switchRoute("SLP-001", "RT-GROUP-001", "{\"amount\":20, \"orderCount\":1}");
+//            System.out.println(Thread.currentThread().getName() + ":" + route.getRouteId());
             countDownLatch.countDown();
         }
     }

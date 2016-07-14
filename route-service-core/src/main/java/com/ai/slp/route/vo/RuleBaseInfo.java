@@ -1,7 +1,8 @@
 package com.ai.slp.route.vo;
 
+import com.ai.opt.sdk.util.DateUtil;
+
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -51,10 +52,10 @@ public class RuleBaseInfo implements Serializable {
      */
     public Timestamp generateNextInvalidateTime() {
         Timestamp startDate = validateTime;
-        Timestamp nextInvalidateTime = startDate;
+        Timestamp nextInvalidateTime = new Timestamp(startDate.getTime());
         while (true) {
             nextInvalidateTime = CycleUnit.buildNextInvalidTimeStamp(nextInvalidateTime, cycleValue, cycleUnit);
-            if (nextInvalidateTime.after(new Date(System.currentTimeMillis()))) {
+            if (nextInvalidateTime.after(DateUtil.getSysDate())) {
                 break;
             } else {
                 Calendar calendar = Calendar.getInstance();
