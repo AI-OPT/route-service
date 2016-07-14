@@ -1,4 +1,4 @@
-package com.ai.slp.route.core.service;
+package com.ai.slp.route.api.core;
 
 import com.ai.slp.route.api.core.interfaces.IRouteCoreService;
 import com.ai.slp.route.api.core.params.SaleProductInfo;
@@ -27,8 +27,9 @@ public class RouteGroupTest {
         SaleProductInfo productInfo = new SaleProductInfo();
         productInfo.setTenantId("SLP");
         productInfo.setRouteGroupId("9987654321");
-        productInfo.setTotalConsumption(10f);
-        routeCoreService.findRoute(productInfo);
+        productInfo.setTotalConsumption(1f);
+        String routeId = routeCoreService.findRoute(productInfo);
+        System.out.println(routeId);
     }
 
     @Test

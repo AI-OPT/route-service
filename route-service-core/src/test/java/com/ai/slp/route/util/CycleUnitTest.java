@@ -36,5 +36,14 @@ public class CycleUnitTest {
         cycleNum = 8;
         timestamp = CycleUnit.buildNextInvalidTimeStamp(startTime,cycleNum,CycleUnit.MONTH);
         logger.info("{} month cycle:{}\r",cycleNum,timestamp.toString());
+
+        //季度
+        calendar.set(Calendar.MONTH,Calendar.JUNE);
+        calendar.set(Calendar.DAY_OF_MONTH,6);
+        startTime = new Timestamp(calendar.getTimeInMillis());
+        logger.info("For QUARTER now is :{}",startTime.toString());
+        cycleNum = 1;
+        timestamp = CycleUnit.buildNextInvalidTimeStamp(startTime,cycleNum,CycleUnit.QUARTER);
+        logger.info("{} QUARTER cycle:{}\r",cycleNum,timestamp.toString());
     }
 }
