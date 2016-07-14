@@ -1,5 +1,6 @@
 package com.ai.slp.route.api.cache.impl;
 
+import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.sdk.constants.ExceptCodeConstants;
 import com.ai.opt.sdk.util.StringUtil;
@@ -24,7 +25,7 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
 
 
     @Override
-    public boolean refreshAllCache(RouteCacheRequest request) throws SystemException {
+    public boolean refreshAllCache(RouteCacheRequest request) throws BusinessException,SystemException {
         try {
             if (StringUtil.isBlank(request.getTenantId())) {
                 return false;
@@ -39,7 +40,7 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
     }
 
     @Override
-    public boolean refreshRouteGroup(RouteCacheRequest request) throws SystemException {
+    public boolean refreshRouteGroup(RouteCacheRequest request) throws BusinessException,SystemException {
         try {
             if (StringUtil.isBlank(request.getRouteGroupId())) {
                 return false;
@@ -54,7 +55,7 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
     }
 
     @Override
-    public boolean refreshRoute(RouteCacheRequest request) throws SystemException {
+    public boolean refreshRoute(RouteCacheRequest request) throws BusinessException,SystemException {
         try {
             if (StringUtil.isBlank(request.getRouteId())) {
                 return false;
@@ -69,7 +70,7 @@ public class RouteCacheServiceImpl implements IRouteCacheService {
     }
 
     @Override
-    public boolean refreshRule(RouteCacheRequest request) throws SystemException {
+    public boolean refreshRule(RouteCacheRequest request) throws BusinessException,SystemException {
         try {
             if (StringUtil.isBlank(request.getRuleId())) {
                 return false;

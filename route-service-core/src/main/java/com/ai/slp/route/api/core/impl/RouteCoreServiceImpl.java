@@ -1,5 +1,6 @@
 package com.ai.slp.route.api.core.impl;
 
+import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.sdk.util.StringUtil;
 import com.ai.slp.route.api.core.interfaces.IRouteCoreService;
@@ -24,7 +25,7 @@ public class RouteCoreServiceImpl implements IRouteCoreService {
     private IRouteSwitcher routeSwitcher;
 
     @Override
-    public String findRoute(SaleProductInfo saleProductInfo) throws SystemException {
+    public String findRoute(SaleProductInfo saleProductInfo) throws BusinessException,SystemException {
         try {
             String tenantId = saleProductInfo.getTenantId(),routeGroupId = saleProductInfo.getRouteGroupId();
             if (StringUtil.isBlank(tenantId) || StringUtil.isBlank(routeGroupId)){

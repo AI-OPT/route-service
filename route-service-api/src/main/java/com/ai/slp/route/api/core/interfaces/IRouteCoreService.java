@@ -25,5 +25,5 @@ public interface IRouteCoreService {
      * @ApiDocMethod
      * @ApiCode ROUTE_CORE_0001
      */
-    String findRoute(SaleProductInfo saleProductInfo) throws SystemException;
+    String findRoute(SaleProductInfo saleProductInfo) throws BusinessException,SystemException;
 }

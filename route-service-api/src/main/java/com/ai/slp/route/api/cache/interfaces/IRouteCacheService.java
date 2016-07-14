@@ -25,7 +25,7 @@ public interface IRouteCacheService {
      * @ApiDocMethod
      * @ApiCode ROUTE_CORE_CACHE_0001
      */
-    boolean refreshAllCache(RouteCacheRequest request) throws SystemException;
+    boolean refreshAllCache(RouteCacheRequest request) throws BusinessException,SystemException;
 
     /**
      * 根据路由组ID刷新路由缓存. <br>
@@ -38,7 +38,7 @@ public interface IRouteCacheService {
      * @ApiDocMethod
      * @ApiCode ROUTE_CORE_CACHE_0002
      */
-    boolean refreshRouteGroup(RouteCacheRequest request) throws SystemException;
+    boolean refreshRouteGroup(RouteCacheRequest request) throws BusinessException,SystemException;
 
     /**
      * 根据路由ID刷新路由缓存. <br>
@@ -51,7 +51,7 @@ public interface IRouteCacheService {
      * @ApiDocMethod
      * @ApiCode ROUTE_CORE_CACHE_0003
      */
-    boolean refreshRoute(RouteCacheRequest request) throws SystemException;
+    boolean refreshRoute(RouteCacheRequest request) throws BusinessException,SystemException;
 
     /**
      * 根据路由ID刷新路由缓存. <br>
@@ -64,5 +64,5 @@ public interface IRouteCacheService {
      * @ApiDocMethod
      * @ApiCode ROUTE_CORE_CACHE_0004
      */
-    boolean refreshRule(RouteCacheRequest request) throws SystemException;
+    boolean refreshRule(RouteCacheRequest request) throws BusinessException,SystemException;
 }
