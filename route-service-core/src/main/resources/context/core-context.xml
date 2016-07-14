@@ -16,7 +16,7 @@
         </property>
     </bean>
 
-    <context:component-scan base-package="com.ai.slp.route.api"/>
+    <context:component-scan base-package="com.ai.slp.route"/>
 
     <!-- 配置数据源 -->
     <bean id="dataSource" class="com.ai.opt.sdk.datasource.OptHikariDataSource">

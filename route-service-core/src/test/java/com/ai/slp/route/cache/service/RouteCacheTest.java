@@ -43,6 +43,11 @@ public class RouteCacheTest {
     }
 
     @Test
+    public void refreshTenantCache() throws SQLException {
+        routeCacheA.refreshAllCache("SLP");
+    }
+
+    @Test
     public void refreshRouteTest(){
         routeCacheA.refreshRoute("900000001");
         routeCacheA.refreshRoute("900000002");
