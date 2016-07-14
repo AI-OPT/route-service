@@ -104,26 +104,26 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
             //加载路由信息
             route = Route.load(routeRedisIds);
             //如果等于空
-            if (route == null) {
-                //检查下一个
-                i = (++i) % routeInRedisKeyArray.size();
-                if (i == index) {
-                    logger.info("Can not found match route in PriorityId[{}], Will attempt to choose next priority",
-                            priority);
+            if (route != null) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("choose RoutId:{} to test Data", route.getRouteId());
+                }
+                //判断路由是否符合使用条件
+                if (!route.isOutOfRules(dataJson)) {
                     break;
+                }
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("RoutId:{} is out of rules", route.getRouteId());
                 }
             }
 
-            if (logger.isDebugEnabled()) {
-                logger.debug("choose RoutId:{} to test Data", route.getRouteId());
-            }
-            //判断路由是否符合使用条件
-            if (!route.isOutOfRules(dataJson)) {
+            //检查下一个
+            i = (++i) % routeInRedisKeyArray.size();
+            if (i == index) {
+                logger.info("Can not found match route in PriorityId[{}], Will attempt to choose next priority",
+                        priority);
                 break;
-            }
-
-            if (logger.isDebugEnabled()) {
-                logger.debug("RoutId:{} is out of rules", route.getRouteId());
             }
         }
 
