@@ -38,11 +38,11 @@
         <property name="routeRuleDao" ref="routeRuleDao"></property>
     </bean>
 
-    <bean id="routeRuleService" class="com.ai.slp.route.service.atom.impl.RouteRuleDBServiceImpl">
+    <bean id="routeRuleService" class="com.ai.slp.route.service.atom.impl.RouteRuleServiceImpl">
         <property name="routeRuleDao" ref="routeRuleDao"></property>
     </bean>
 
-    <bean id="routeGroupService" class="com.ai.slp.route.service.atom.impl.RouteGroupDBServiceImpl">
+    <bean id="routeGroupService" class="com.ai.slp.route.service.atom.impl.RouteGroupServiceImpl">
         <property name="routeRuleDao" ref="routeRuleDao"></property>
         <property name="routeDao" ref="routeDao"></property>
         <property name="routeGroupDao" ref="routeGroupDao"></property>
