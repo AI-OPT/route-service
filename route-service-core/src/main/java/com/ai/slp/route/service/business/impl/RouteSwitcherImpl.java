@@ -121,6 +121,7 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
             //检查下一个
             i = (++i) % routeInRedisKeyArray.size();
             if (i == index) {
+                route = null;
                 logger.info("Can not found match route in PriorityId[{}], Will attempt to choose next priority",
                         priority);
                 break;

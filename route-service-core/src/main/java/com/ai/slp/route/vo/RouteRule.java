@@ -138,15 +138,17 @@ public class RouteRule {
      */
     public boolean match(float value) {
         boolean result = true;
+        String ruleDataKey = CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem());
         //添加消耗量
-        double resultValue = MCSUtil.atomIncrement(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), value);
+        double resultValue = MCSUtil.atomIncrement(ruleDataKey, value);
+        logger.info("RK[{}] result is {}",ruleDataKey,resultValue);
         //如果规则没有最小限制
         if (ruleBaseInfo.getMinQuantity() == -1) {
             //如果大于消耗量,则进行消耗量回退,并返回规则不匹配
             if (resultValue > ruleBaseInfo.getMaxQuantity()) {
                 result = false;
-                // 更新值
-                MCSUtil.atomDecrement(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), value);
+                // 回退使用量
+                MCSUtil.atomDecrement(ruleDataKey, value);
             }//若等于最大量,则将规则状态重新设置
             else if (resultValue == ruleBaseInfo.getMaxQuantity()) {
                 //更新status
@@ -155,8 +157,10 @@ public class RouteRule {
                 setRouteRuleStatus();
             }
         } else {
+            //若大于最大量,则进行回退
             if (resultValue > ruleBaseInfo.getMaxQuantity()) {
-                MCSUtil.atomDecrement(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), value);
+                //进行使用量回退
+                MCSUtil.atomDecrement(ruleDataKey, value);
                 result = false;
             }//使用量大于最小值,小于最大值,则重新设置状态
             else if (resultValue <= ruleBaseInfo.getMaxQuantity() && resultValue >= ruleBaseInfo.getMinQuantity()) {
@@ -167,13 +171,8 @@ public class RouteRule {
                 setRouteRuleStatus();
             }
         }
-
-        if (result) {
-            logger.info("RuleId[{}]  match value [{}], current data:{}", ruleId, ruleBaseInfo.getRuleItem(), resultValue);
-        } else {
-            logger.info("RuleId[{}] don't match value [{}], current data:{}", ruleId, ruleBaseInfo.getRuleItem(), resultValue);
-        }
-
+        logger.info("RuleId[{}] {} match value [{}], current data:{}",
+                ruleId, result?"":"don't", ruleBaseInfo.getRuleItem(), resultValue);
         return result;
     }
 

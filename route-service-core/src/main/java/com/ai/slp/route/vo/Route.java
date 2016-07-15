@@ -116,7 +116,7 @@ public class Route {
                 new TypeToken<Map<String, Float>>() {}.getType());
 
         boolean result = false;
-        //进行规制判断
+        //进行规则判断
         for (RouteRule rule : routeRules) {
             //获取规则状态
             String routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));

@@ -21,7 +21,7 @@
     </Async>
   </Appenders>
   <Loggers>
-    <logger name="com.ai.slp.route" level="DEBUG" additivity="false">
+    <logger name="com.ai.slp.route" level="INFO" additivity="false">
          <AppenderRef ref="RollingFile" />
          <AppenderRef ref="STDOUT" />
     </logger>
