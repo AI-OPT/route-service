@@ -54,7 +54,7 @@ public interface IRouteCacheService {
     boolean refreshRoute(RouteCacheRequest request) throws BusinessException,SystemException;
 
     /**
-     * 根据路由ID刷新路由缓存. <br>
+     * 根据路由规则ID刷新路由缓存. <br>
      *
      * @param request 路由ID
      * @return 是否刷新成功
