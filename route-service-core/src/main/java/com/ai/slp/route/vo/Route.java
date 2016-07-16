@@ -118,28 +118,45 @@ public class Route {
         boolean result = false;
         //进行规则判断
         for (RouteRule rule : routeRules) {
-            //获取规则状态
-            String routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
-            //若规则为待生效,则检查是否可以生效
-            if (RouteRule.RuleStatus.INEFFECTIVE.getValue().equals(routeRuleStatus)) {
-                logger.info("Route RuleId{} status is {}, The Rules have not yet entered into force.",
-                        rule.getRuleId(),routeRuleStatus);
-                // 未到生效时间,则查询下一个规则
-                if (rule.getRuleBaseInfo().getValidateTime().after(DateUtil.getSysDate())) {
+            RuleBaseInfo baseInfo = rule.getRuleBaseInfo();
+            logger.info("The route rule[{}] invalidDatetime is {}",
+                    rule.getRuleId(),DateUtil.getTimeStampNumberFormat(baseInfo.getInvalidateTime()));
+            String routeRuleStatus;
+            //结束时间不在当前时间之后,表示规则已无效
+            if (!baseInfo.getInvalidateTime().after(DateUtil.getSysDate())){
+                //如果为自定义,则检查下一条规则
+                if (TimeType.SELF_DEFINED.equals(baseInfo.getTimeType())){
                     continue;
-                }//可以生效,则进行状态变更
-                else {
+                }else {
                     //重置状态
                     rule.reloadData();
+                    //获取规则状态
+                    routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
                 }
-            } //若规则无效,表示当前路由无效
-            else if (RouteRule.RuleStatus.INVALIDATE.getValue().equals(routeRuleStatus)) {
-                logger.info("Route RuleId{} status is {}, This route cannot be match.",
-                        rule.getRuleId(), routeRuleStatus);
-                result = true;
-                break;
+            }else{
+                //获取规则状态
+                routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
+//                logger.info();
+                //状态为无效或重载,表示规则无效
+                if(RouteRule.RuleStatus.INVALIDATE.getValue().equals(routeRuleStatus)
+                        || RouteRule.RuleStatus.RELOADING.getValue().equals(routeRuleStatus) ){
+                    logger.info("Route RuleId{} status is {},the invalid datetime is{}, This route cannot be match.",
+                            rule.getRuleId(), routeRuleStatus,baseInfo.getInvalidateTime().toString());
+                    result = true;
+                    break;
+                }//待生效
+                else if(RouteRule.RuleStatus.INEFFECTIVE.getValue().equals(routeRuleStatus)){
+                    if(baseInfo.getValidateTime().before(DateUtil.getSysDate())){
+                        continue;
+                    }else {
+                        rule.reloadData();
+                        //获取规则状态
+                        routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
+                    }
+                }
             }
 
+            //是否能获取规则量信息
             boolean loadDataTag = rule.loadRuleData(rule.getRuleId(), routeRuleStatus);
             if (!loadDataTag) {
                 logger.info("Cannot to load the ruleId[{}] data. " +

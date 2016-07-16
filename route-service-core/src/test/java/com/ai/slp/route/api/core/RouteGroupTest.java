@@ -4,6 +4,9 @@ import com.ai.slp.route.api.core.interfaces.IRouteCoreService;
 import com.ai.slp.route.api.core.params.SaleProductInfo;
 import com.ai.slp.route.service.business.impl.RouteSwitcherImpl;
 import com.ai.slp.route.service.business.interfaces.IRouteSwitcher;
+import com.ai.slp.route.util.CacheKeyUtil;
+import com.ai.slp.route.util.MCSUtil;
+import com.ai.slp.route.vo.RuleItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,7 @@ public class RouteGroupTest {
         productInfo.setTotalConsumption(1f);
         String routeId = routeCoreService.findRoute(productInfo);
         System.out.println(routeId);
+        checkCacheVal();
     }
 
     @Test
@@ -58,6 +62,24 @@ public class RouteGroupTest {
 //            System.out.println(Thread.currentThread().getName() + ":" + route.getRouteId());
             countDownLatch.countDown();
         }
+    }
+
+    @Test
+    public void checkCacheVal(){
+        printCache(CacheKeyUtil.RK_RouteRuleData("8000001", RuleItem.AMOUNT));
+        printCache(CacheKeyUtil.RK_RouteRuleData("8000002", RuleItem.ORDERCOUNT));
+        printCache(CacheKeyUtil.RK_RouteRuleData("8000003", RuleItem.AMOUNT));
+        printCache(CacheKeyUtil.RK_RouteRuleData("8000004", RuleItem.ORDERCOUNT));
+        printCache(CacheKeyUtil.RK_RouteRuleData("8000005", RuleItem.AMOUNT));
+        printCache(CacheKeyUtil.RK_RouteRuleData("8000006", RuleItem.ORDERCOUNT));
+        printCache(CacheKeyUtil.RK_RouteRuleData("6000001", RuleItem.AMOUNT));
+        printCache(CacheKeyUtil.RK_RouteRuleData("9000008", RuleItem.ORDERCOUNT));
+        printCache(CacheKeyUtil.RK_RouteRuleData("9000009", RuleItem.AMOUNT));
+
+    }
+
+    private void printCache(String cacheKey){
+        System.out.printf("RK [%S] values is %s \r\n",cacheKey, MCSUtil.load(cacheKey));
     }
 
 

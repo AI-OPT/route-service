@@ -187,6 +187,9 @@ public class RouteRule {
                 isReloading?RuleStatus.RELOADING.getValue():RuleStatus.INVALIDATE.getValue());
     }
 
+    /**
+     * 重载规则信息
+     */
     public void reloadData() {
         if (ruleBaseInfo == null)
             return;
@@ -196,14 +199,15 @@ public class RouteRule {
         if (ruleBaseInfo.getTimeType() == TimeType.CYCLE) {
             nextInvalidateTime = ruleBaseInfo.generateNextInvalidateTime();
         }
-        //在当前时间之后
+        //失效时间在当前时间之后
         if (nextInvalidateTime.after(DateUtil.getSysDate())) {
+            //查询路由规则状态
             String routeStatus = CacheKeyUtil.RK_RouteRuleStatus(ruleId);
-            //直接更新值，当前值失效，
+            //重置路由规则量
             MCSUtil.expire(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()));
             logger.info("Reload rule date, RK[{}] next Invalidate time {}", routeStatus, nextInvalidateTime);
             MCSUtil.putnx(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", nextInvalidateTime.getTime() / 1000);
-            // 更新路由规则状态
+            // 更新路由规则状态为有效
             MCSUtil.put(routeStatus, RuleStatus.VALIDATE.getValue());
         }
     }

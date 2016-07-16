@@ -1,6 +1,5 @@
-package com.ai.slp.route.util;
+package com.ai.slp.route.vo;
 
-import com.ai.slp.route.vo.CycleUnit;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

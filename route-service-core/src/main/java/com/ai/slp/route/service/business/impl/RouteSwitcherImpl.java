@@ -101,7 +101,7 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
         Route route = null;
         while (true) {
             String routeRedisIds = routeInRedisKeyArray.get(i);
-            //加载路由信息
+            //加载有效状态的路由信息
             route = Route.load(routeRedisIds);
             //如果等于空
             if (route != null) {

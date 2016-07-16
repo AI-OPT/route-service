@@ -48,10 +48,20 @@ public class RouteCacheTest {
     }
 
     @Test
+    public void refreshGroupCache()throws SQLException{
+        routeCacheA.refreshRouteGroup("8000000001");
+    }
+
+    @Test
     public void refreshRouteTest(){
-        routeCacheA.refreshRoute("900000001");
-        routeCacheA.refreshRoute("900000002");
-        routeCacheA.refreshRoute("900000003");
+        routeCacheA.refreshRoute("8000000001");
+//        routeCacheA.refreshRoute("900000002");
+//        routeCacheA.refreshRoute("900000003");
+    }
+
+    @Test
+    public void refreshRuleTest(){
+        routeCacheA.refreshRule("9000008");
     }
 
 
