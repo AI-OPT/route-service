@@ -29,11 +29,11 @@ public class RouteGroupTest {
     public void findRouteTest(){
         SaleProductInfo productInfo = new SaleProductInfo();
         productInfo.setTenantId("SLP");
-        productInfo.setRouteGroupId("5000000001");
-        productInfo.setTotalConsumption(1f);
+        productInfo.setRouteGroupId("9987654321");
+        productInfo.setTotalConsumption(10f);
         String routeId = routeCoreService.findRoute(productInfo);
         System.out.println(routeId);
-        checkCacheVal();
+        printRoleCacheVal();
     }
 
     @Test
@@ -65,27 +65,40 @@ public class RouteGroupTest {
     }
 
     @Test
-    public void checkCacheVal(){
-        String ruleId = "8000001";
-        printCache(CacheKeyUtil.RK_RouteRuleData(ruleId, RuleItem.AMOUNT));
-        printCache(CacheKeyUtil.RK_RouteRuleData("8000002", RuleItem.ORDERCOUNT));
-        printCache(CacheKeyUtil.RK_RouteRuleData("8000003", RuleItem.AMOUNT));
-        printCache(CacheKeyUtil.RK_RouteRuleData("8000004", RuleItem.ORDERCOUNT));
-        printCache(CacheKeyUtil.RK_RouteRuleData("8000005", RuleItem.AMOUNT));
-        printCache(CacheKeyUtil.RK_RouteRuleData("8000006", RuleItem.ORDERCOUNT));
-        printCache(CacheKeyUtil.RK_RouteRuleData("6000001", RuleItem.AMOUNT));
-        printCache(CacheKeyUtil.RK_RouteRuleData("9000008", RuleItem.ORDERCOUNT));
-        printCache(CacheKeyUtil.RK_RouteRuleData("9000009", RuleItem.AMOUNT));
+    public void printRoleCacheVal(){
+        String ruleId = "9000002";
+        printRuleState(ruleId);
+        printRuleDataCache(CacheKeyUtil.RK_RouteRuleData(ruleId, RuleItem.ORDERCOUNT));
+        printRuleState("9000003");
+        printRuleDataCache(CacheKeyUtil.RK_RouteRuleData("9000003", RuleItem.AMOUNT));
+        printRuleState("6000001");
+        printRuleDataCache(CacheKeyUtil.RK_RouteRuleData("6000001", RuleItem.AMOUNT));
+        printRuleState("9000008");
+        printRuleDataCache(CacheKeyUtil.RK_RouteRuleData("9000008", RuleItem.ORDERCOUNT));
+        printRuleState("9000009");
+        printRuleDataCache(CacheKeyUtil.RK_RouteRuleData("9000009", RuleItem.AMOUNT));
+        printRuleState("9000010");
+        printRuleDataCache(CacheKeyUtil.RK_RouteRuleData("9000010", RuleItem.AMOUNT));
+        printRuleState("9000012");
+        printRuleDataCache(CacheKeyUtil.RK_RouteRuleData("9000012", RuleItem.ORDERCOUNT));
+        printRuleState("9000011");
+        printRuleDataCache(CacheKeyUtil.RK_RouteRuleData("9000011", RuleItem.ORDERCOUNT));
         ruleId = "5000004";
-        printRouteState(ruleId);
-        printCache(CacheKeyUtil.RK_RouteRuleData(ruleId, RuleItem.AMOUNT));
+        printRuleState(ruleId);
+        printRuleDataCache(CacheKeyUtil.RK_RouteRuleData(ruleId, RuleItem.AMOUNT));
+    }
+
+    @Test
+    public void printRouteCacheVal(){
+        String routeId = "";
+        printRouteState(routeId);
     }
 
     /**
      * 打印路由规则量
      * @param cacheKey
      */
-    private void printCache(String cacheKey){
+    private void printRuleDataCache(String cacheKey){
         System.out.printf("RK [%S] values is %s \r\n",cacheKey, MCSUtil.load(cacheKey));
     }
 
@@ -93,10 +106,18 @@ public class RouteGroupTest {
      * 打印路由规则状态
      * @param ruleId
      */
-    private void printRouteState(String ruleId){
-        String stateKey = CacheKeyUtil.RK_RouteStatus(ruleId);
+    private void printRuleState(String ruleId){
+        String stateKey = CacheKeyUtil.RK_RouteRuleStatus(ruleId);
         System.out.printf("RK [%S] status is %s \r\n",stateKey,MCSUtil.load(stateKey));
     }
 
+    /**
+     * 打印路由状态
+     * @param routeId
+     */
+    private void printRouteState(String routeId){
+        String stateKey = CacheKeyUtil.RK_RouteStatus(routeId);
+        System.out.printf("RK [%S] status is %s \r\n",stateKey,MCSUtil.load(stateKey));
+    }
 
 }

@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -122,39 +123,29 @@ public class Route {
             RuleBaseInfo baseInfo = rule.getRuleBaseInfo();
             logger.info("The route rule[{}] invalidDatetime is {}",
                     rule.getRuleId(),DateUtil.getTimeStampNumberFormat(baseInfo.getInvalidateTime()));
-            String routeRuleStatus;
-            //结束时间不在当前时间之后,表示规则已无效
-            if (!baseInfo.getInvalidateTime().after(DateUtil.getSysDate())){
-                //如果为自定义,则检查下一条规则
-                if (TimeType.SELF_DEFINED.equals(baseInfo.getTimeType())){
-                    continue;
-                }else {
-                    //重置状态
-                    rule.reloadData();
-                    //获取规则状态
+            //未到开始时间,则查询下一条规则
+            //自定义规则,且已过结束时间,则查询下一条规则
+            Timestamp nowDateTime = DateUtil.getSysDate();
+            if (nowDateTime.before(baseInfo.getValidateTime())
+                    ||(TimeType.SELF_DEFINED.equals(baseInfo.getTimeType() )
+                        && nowDateTime.after(baseInfo.getInvalidateTime()))){
+                continue;
+            }
+
+            //获取规则状态
+            String routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
+            //规则量缓存key
+            String ruleDateKey = CacheKeyUtil.RK_RouteRuleData(rule.getRuleId(), baseInfo.getRuleItem());
+            //判断是否需要重载数据
+            if (TimeType.CYCLE.equals(baseInfo.getTimeType())//为周期规则
+                    //上个周期已完成,规则量不存在
+                    && !MCSUtil.isExists(ruleDateKey)
+                    //状态为有效或重载
+                    && (RouteRule.RuleStatus.VALIDATE.equals(routeRuleStatus)
+                        || RouteRule.RuleStatus.RELOADING.equals(routeRuleStatus))){
+                //重置数据
+                if (rule.reloadData())
                     routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
-                }
-            }else{
-                //获取规则状态
-                routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
-//                logger.info();
-                //状态为无效或重载,表示规则无效
-                if(RouteRule.RuleStatus.INVALIDATE.getValue().equals(routeRuleStatus)
-                        || RouteRule.RuleStatus.RELOADING.getValue().equals(routeRuleStatus) ){
-                    logger.info("Route RuleId{} status is {},the invalid datetime is{}, This route cannot be match.",
-                            rule.getRuleId(), routeRuleStatus,baseInfo.getInvalidateTime().toString());
-                    result = true;
-                    break;
-                }//待生效
-                else if(RouteRule.RuleStatus.INEFFECTIVE.getValue().equals(routeRuleStatus)){
-                    if(baseInfo.getValidateTime().before(DateUtil.getSysDate())){
-                        continue;
-                    }else {
-                        rule.reloadData();
-                        //获取规则状态
-                        routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
-                    }
-                }
             }
 
             //是否能获取规则量信息

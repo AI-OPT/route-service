@@ -20,6 +20,14 @@ public class MCSUtil {
         return getCacheClient().hgetAll(key);
     }
 
+    public static boolean isExists(String key){
+        return getCacheClient().exists(key);
+    }
+
+    public static boolean isHExists(String key,String field){
+        return getCacheClient().hexists(key,field);
+    }
+
     public static Long expire(String key) {
         return getCacheClient().expire(key, 0);
     }

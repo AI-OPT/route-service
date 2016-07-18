@@ -26,12 +26,7 @@ public class RouteRule {
         this.routeId = routeId;
         this.ruleId = ruleId;
         this.ruleBaseInfo = ruleBaseInfo;
-        // 若未到生效时间,则设置待生效
-        if (this.ruleBaseInfo.getValidateTime().after(DateUtil.getSysDate())) {
-            this.ruleStatus = RuleStatus.INEFFECTIVE;
-        } else {
-            this.ruleStatus = RuleStatus.convert(state);
-        }
+        this.ruleStatus = RuleStatus.convert(state);
     }
 
     public RouteRule(String routeId, String ruleId, String state,String baseInfo){
@@ -106,6 +101,7 @@ public class RouteRule {
     }
 
     public boolean loadRuleData(String routeRuleId, String routeRuleStatus) {
+        boolean loadSuccess = true;
         //获取路由数据
         String routeRuleData = MCSUtil.load(CacheKeyUtil.RK_RouteRuleData(routeRuleId, ruleBaseInfo.getRuleItem()));
         //如果路由规则信息为空
@@ -116,7 +112,7 @@ public class RouteRule {
                 logger.warn("RouteRuleId[{}] has been invalidate. change status to [{}]",
                         routeRuleId, RuleStatus.INVALIDATE.name());
                 MCSUtil.put(CacheKeyUtil.RK_RouteRuleStatus(routeRuleId), RuleStatus.INVALIDATE.getValue());
-                return false;
+                loadSuccess = false;
             } //规则类型为周期性,则重新加载规则信息
             else {
                 logger.info("RouteRuleId[{}] has been invalidate, will reload data", routeRuleId);
@@ -125,10 +121,10 @@ public class RouteRule {
             }
         }//如果为重新加载,则返回false
         else if (RuleStatus.RELOADING.getValue().equals(routeRuleStatus)){
-            return false;
+            loadSuccess = false;
         }
 
-        return true;
+        return loadSuccess;
     }
 
     /**
@@ -190,9 +186,10 @@ public class RouteRule {
     /**
      * 重载规则信息
      */
-    public void reloadData() {
+    public boolean reloadData() {
+        boolean isReload = false;
         if (ruleBaseInfo == null)
-            return;
+            return isReload;
         //获得当前失效时间
         Timestamp nextInvalidateTime = ruleBaseInfo.getInvalidateTime();
         //若时段类型为周期性,查询下次失效时间
@@ -209,17 +206,18 @@ public class RouteRule {
             MCSUtil.putnx(CacheKeyUtil.RK_RouteRuleData(ruleId, ruleBaseInfo.getRuleItem()), "0", nextInvalidateTime.getTime() / 1000);
             // 更新路由规则状态为有效
             MCSUtil.put(routeStatus, RuleStatus.VALIDATE.getValue());
+            isReload = true;
         }
+        return isReload;
     }
 
     /**
      * 规则状态
      */
     public enum RuleStatus {
-
         VALIDATE("1"),//有效
         INVALIDATE("0"),//无效
-        INEFFECTIVE("-1"),//未到生效时间,待生效
+        INEFFECTIVE("-1"),//未到生效时间,待生效,将废弃.
         RELOADING("-2");//重新加载
 
         private String value;
