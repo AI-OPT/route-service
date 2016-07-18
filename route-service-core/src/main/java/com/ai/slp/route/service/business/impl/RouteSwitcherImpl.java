@@ -97,6 +97,7 @@ public class RouteSwitcherImpl implements IRouteSwitcher {
     private Route switchRoute(String priority,String dataJson,List<String> routeInRedisKeyArray) {
         //产生一个随机数
         int index = ThreadLocalRandom.current().nextInt(0, routeInRedisKeyArray.size());
+//        int index = 0;
         int i = index;
         Route route = null;
         while (true) {

@@ -141,8 +141,8 @@ public class Route {
                     //上个周期已完成,规则量不存在
                     && !MCSUtil.isExists(ruleDateKey)
                     //状态为有效或重载
-                    && (RouteRule.RuleStatus.VALIDATE.equals(routeRuleStatus)
-                        || RouteRule.RuleStatus.RELOADING.equals(routeRuleStatus))){
+                    && (RouteRule.RuleStatus.VALIDATE.getValue().equals(routeRuleStatus)
+                        || RouteRule.RuleStatus.RELOADING.getValue().equals(routeRuleStatus))){
                 //重置数据
                 if (rule.reloadData())
                     routeRuleStatus = MCSUtil.load(CacheKeyUtil.RK_RouteRuleStatus(rule.getRuleId()));
