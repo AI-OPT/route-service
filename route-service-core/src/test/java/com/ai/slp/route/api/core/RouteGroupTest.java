@@ -29,7 +29,7 @@ public class RouteGroupTest {
     public void findRouteTest(){
         SaleProductInfo productInfo = new SaleProductInfo();
         productInfo.setTenantId("SLP");
-        productInfo.setRouteGroupId("9987654321");
+        productInfo.setRouteGroupId("5000000001");
         productInfo.setTotalConsumption(1f);
         String routeId = routeCoreService.findRoute(productInfo);
         System.out.println(routeId);
@@ -66,7 +66,8 @@ public class RouteGroupTest {
 
     @Test
     public void checkCacheVal(){
-        printCache(CacheKeyUtil.RK_RouteRuleData("8000001", RuleItem.AMOUNT));
+        String ruleId = "8000001";
+        printCache(CacheKeyUtil.RK_RouteRuleData(ruleId, RuleItem.AMOUNT));
         printCache(CacheKeyUtil.RK_RouteRuleData("8000002", RuleItem.ORDERCOUNT));
         printCache(CacheKeyUtil.RK_RouteRuleData("8000003", RuleItem.AMOUNT));
         printCache(CacheKeyUtil.RK_RouteRuleData("8000004", RuleItem.ORDERCOUNT));
@@ -75,11 +76,26 @@ public class RouteGroupTest {
         printCache(CacheKeyUtil.RK_RouteRuleData("6000001", RuleItem.AMOUNT));
         printCache(CacheKeyUtil.RK_RouteRuleData("9000008", RuleItem.ORDERCOUNT));
         printCache(CacheKeyUtil.RK_RouteRuleData("9000009", RuleItem.AMOUNT));
-
+        ruleId = "5000004";
+        printRouteState(ruleId);
+        printCache(CacheKeyUtil.RK_RouteRuleData(ruleId, RuleItem.AMOUNT));
     }
 
+    /**
+     * 打印路由规则量
+     * @param cacheKey
+     */
     private void printCache(String cacheKey){
         System.out.printf("RK [%S] values is %s \r\n",cacheKey, MCSUtil.load(cacheKey));
+    }
+
+    /**
+     * 打印路由规则状态
+     * @param ruleId
+     */
+    private void printRouteState(String ruleId){
+        String stateKey = CacheKeyUtil.RK_RouteStatus(ruleId);
+        System.out.printf("RK [%S] status is %s \r\n",stateKey,MCSUtil.load(stateKey));
     }
 
 

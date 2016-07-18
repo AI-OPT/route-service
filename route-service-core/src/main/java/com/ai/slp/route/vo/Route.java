@@ -96,7 +96,8 @@ public class Route {
         //获取路由状态
         String routeStatus = MCSUtil.load(CacheKeyUtil.RK_RouteStatus(routeId));
         // 如果路由不是有效状态,则返回null
-        if (!RouteStatus.VALIDATE.getValue().equals(routeStatus)) {
+        if (!RouteStatus.VALIDATE.getValue().equals(routeStatus)
+                && !RouteStatus.INVALIDATE.getValue().equals(routeStatus)) {
             return null;
         }
         //获取路由规则信息

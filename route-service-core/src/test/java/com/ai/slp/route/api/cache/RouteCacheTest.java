@@ -49,7 +49,7 @@ public class RouteCacheTest {
 
     @Test
     public void refreshGroupCache()throws SQLException{
-        routeCacheA.refreshRouteGroup("8000000001");
+        routeCacheA.refreshRouteGroup("5000000001");
     }
 
     @Test
