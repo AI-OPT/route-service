@@ -154,7 +154,9 @@ public class RouteRule {
             }
         } else {
             //若大于最大量,则进行回退
-            if (resultValue > ruleBaseInfo.getMaxQuantity()) {
+            //或者原来消耗量大于等于最小值,也进行回退
+            if (resultValue > ruleBaseInfo.getMaxQuantity()
+                    ||(resultValue-value) >= ruleBaseInfo.getMinQuantity()) {
                 //进行使用量回退
                 MCSUtil.atomDecrement(ruleDataKey, value);
                 result = false;
