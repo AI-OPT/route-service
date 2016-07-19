@@ -113,7 +113,9 @@ public class Route {
      * @return
      */
     public boolean isOutOfRules(String dataJson) {
+        //K:缓存规则KEY,V:规则量
         Map<String, Float> hasBeenIncrement = new HashMap<String, Float>();
+//        Map<String, String>
         Map<String, Float> dataMap = new Gson().fromJson(dataJson,
                 new TypeToken<Map<String, Float>>() {}.getType());
 

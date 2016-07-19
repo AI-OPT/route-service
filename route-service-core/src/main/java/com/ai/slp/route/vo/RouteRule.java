@@ -176,11 +176,10 @@ public class RouteRule {
      * 重新设置路由规则状态
      */
     private void setRouteRuleStatus() {
-        //判断时段类型是否为周期性
-        boolean isReloading = ruleBaseInfo.getTimeType() == TimeType.CYCLE;
-        //若时段类型为周期性,则设置为重新更新状态,否则为失效状态
-        MCSUtil.put(CacheKeyUtil.RK_RouteRuleStatus(ruleId),
-                isReloading?RuleStatus.RELOADING.getValue():RuleStatus.INVALIDATE.getValue());
+        //若为周期性规则,则设置失效
+        if (ruleBaseInfo.getTimeType() == TimeType.CYCLE){
+            MCSUtil.put(CacheKeyUtil.RK_RouteRuleStatus(ruleId),RuleStatus.INVALIDATE.getValue());
+        }
     }
 
     /**
