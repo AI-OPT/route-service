@@ -62,7 +62,7 @@ public class RouteCacheTest {
     @Test
     public void refreshRuleTest(){
         routeCacheA.refreshRule("9000002");
-//        routeCacheA.refreshRule("9000003");
+        routeCacheA.refreshRule("9000003");
     }
 
 

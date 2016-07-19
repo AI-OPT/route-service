@@ -176,8 +176,8 @@ public class RouteRule {
      * 重新设置路由规则状态
      */
     private void setRouteRuleStatus() {
-        //若为周期性规则,则设置失效
-        if (ruleBaseInfo.getTimeType() == TimeType.CYCLE){
+        //若不为周期性规则,则设置失效
+        if (ruleBaseInfo.getTimeType() != TimeType.CYCLE){
             MCSUtil.put(CacheKeyUtil.RK_RouteRuleStatus(ruleId),RuleStatus.INVALIDATE.getValue());
         }
     }
