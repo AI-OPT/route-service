@@ -51,6 +51,7 @@ for(Map<String,String> apiMap:apiList){
     String apiVersion = apiMap.get("apiVersion");
     String apiArtifactId = apiMap.get("apiArtifactId");
     String apiTaskName = apiMap.get("apiTaskName");
+    //打包任务
     def jarTask = task("${apiTaskName}Jar", type: Jar){
         version apiVersion
         baseName apiArtifactId
@@ -62,7 +63,7 @@ for(Map<String,String> apiMap:apiList){
         }
     }
     apiTaskMap.put(apiName, jarTask);
-
+    //注释发布接口
     def apidocTask=task("${apiArtifactId}APIDoc",type:com.ai.runner.gradle.plugin.APICollectorTask){
         dependsOn apiJarProcessTask
         esconfig = "{\"clusterName\":\"elasticsearch_for_sol\",\"ip\":\"10.1.234.160\", \"port\":14999}"
