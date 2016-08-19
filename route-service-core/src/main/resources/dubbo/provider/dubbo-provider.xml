@@ -20,7 +20,7 @@
     <dubbo:registry protocol="${dubbo.registry.protocol}"
                     address="${dubbo.registry.address}" file="${dubbo.registry.file}"/>
 
-    <dubbo:protocol name="${dubbo.protocol}" port="${dubbo.port}"/>
+    <dubbo:protocol name="${dubbo.protocol}" port="${slp.route.service.dubbo.port}"/>
     <dubbo:provider timeout="${dubbo.provider.timeout}" retries="0" threads="300"/>
     <dubbo:monitor protocol="registry"/>
     <dubbo:annotation package="com.ai.slp.route.api"/>
